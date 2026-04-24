@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"const p = require\\('/home/redcrafter/WebstormProjects/clx_discord_bot/node_modules/discord.js/package.json'\\); console.log\\(p.version\\)\")",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(npx --yes create-next-app@latest apps/dashboard --typescript --tailwind --app --src-dir --import-alias \"@/*\" --no-eslint --no-turbopack)",
+      "Bash(npx tsc:*)",
+      "Bash(openssl rand:*)",
+      "Bash(docker compose:*)",
+      "Bash(npx prisma:*)",
+      "Bash(pkill -f \"prisma migrate\")",
+      "Bash(pkill -f \"prisma-migrate\")",
+      "Bash(DATABASE_URL=postgresql://clx:clxpassword@localhost:5432/clx_discord npx prisma migrate dev --name init)",
+      "Bash(docker exec clx_postgres:*)",
+      "Bash(mkdir -p /home/redcrafter/WebstormProjects/clx_discord_bot/apps/dashboard/src/app/dashboard/'[guildId]'/users/'[userId]')",
+      "Bash(mkdir -p /home/redcrafter/WebstormProjects/clx_discord_bot/apps/dashboard/src/app/api/guilds/'[guildId]'/users)",
+      "Bash(mkdir -p /home/redcrafter/WebstormProjects/clx_discord_bot/apps/dashboard/src/app/api/guilds/'[guildId]'/infractions/'[infractionId]')",
+      "Bash(xargs sed:*)"
+    ]
+  }
+}

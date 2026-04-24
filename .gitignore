@@ -1,3 +1,25 @@
 node_modules/
 dist/
 .env
+.env.local
+packages/database/.env
+.env.*.local
+
+# Next.js
+.next/
+out/
+
+# Prisma generated client
+packages/database/src/generated/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp

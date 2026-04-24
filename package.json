@@ -1,19 +1,23 @@
 {
-  "name": "clx_discord_bot",
+  "name": "clx-discord-bot",
   "version": "1.0.0",
-  "type": "commonjs",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "ts-node src/index.ts",
-    "build": "tsc",
-    "start": "node dist/index.js"
-  },
-  "dependencies": {
-    "discord.js": "^14.x",
-    "dotenv": "^16.x"
-  },
-  "devDependencies": {
-    "@types/node": "^22.x",
-    "ts-node": "^10.x",
-    "typescript": "^5.x"
+    "bot:dev": "npm run dev --workspace=apps/bot",
+    "bot:build": "npm run build --workspace=apps/bot",
+    "bot:start": "npm run start --workspace=apps/bot",
+    "bot:deploy": "npm run deploy --workspace=apps/bot",
+    "dash:dev": "npm run dev --workspace=apps/dashboard",
+    "dash:build": "npm run build --workspace=apps/dashboard",
+    "dash:start": "npm run start --workspace=apps/dashboard",
+    "db:generate": "npm run generate --workspace=packages/database",
+    "db:migrate": "npm run migrate --workspace=packages/database",
+    "db:migrate:prod": "npm run migrate:prod --workspace=packages/database",
+    "db:studio": "npm run studio --workspace=packages/database",
+    "build": "npm run build --workspaces --if-present"
   }
 }

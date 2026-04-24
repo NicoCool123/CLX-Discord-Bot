@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Guild {
+  id           String         @id @default(cuid())
+  guildId      String         @unique
+  name         String
+  createdAt    DateTime       @default(now())
+  settings     GuildSettings?
+  users        User[]
+  infractions  Infraction[]
+  automodRules AutomodRule[]
+}
+
+model User {
+  id          String       @id @default(cuid())
+  userId      String
+  guildId     String
+  username    String
+  createdAt   DateTime     @default(now())
+  guild       Guild        @relation(fields: [guildId], references: [guildId])
+  infractions Infraction[]
+
+  @@unique([userId, guildId])
+}
+
+model Infraction {
+  id          String         @id @default(cuid())
+  userId      String
+  guildId     String
+  type        InfractionType
+  reason      String
+  moderatorId String
+  duration    Int? // seconds; null = permanent
+  createdAt   DateTime       @default(now())
+  user        User           @relation(fields: [userId, guildId], references: [userId, guildId])
+  guild       Guild          @relation(fields: [guildId], references: [guildId])
+}
+
+model GuildSettings {
+  id               String   @id @default(cuid())
+  guildId          String   @unique
+  automodEnabled   Boolean  @default(true)
+  blacklistedWords String[] @default([])
+  allowedLinks     String[] @default([])
+  spamThreshold    Int      @default(5)
+  spamInterval     Int      @default(5)
+  logChannelId     String?
+  muteRoleId       String?
+  guild            Guild    @relation(fields: [guildId], references: [guildId])
+}
+
+model AutomodRule {
+  id      String          @id @default(cuid())
+  guildId String
+  type    AutomodRuleType
+  action  AutomodAction
+  enabled Boolean         @default(true)
+  config  Json            @default("{}")
+  guild   Guild           @relation(fields: [guildId], references: [guildId])
+
+  @@unique([guildId, type])
+}
+
+enum InfractionType {
+  WARN
+  MUTE
+  BAN
+  KICK
+  UNBAN
+  AUTOMOD
+}
+
+enum AutomodRuleType {
+  SPAM
+  WORD_FILTER
+  LINK_DETECTION
+}
+
+enum AutomodAction {
+  WARN
+  TIMEOUT
+  KICK
+  BAN
+  DELETE
+}
