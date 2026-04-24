@@ -1,0 +1,19 @@
+{
+  "name": "clx_discord_bot",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.x",
+    "dotenv": "^16.x"
+  },
+  "devDependencies": {
+    "@types/node": "^22.x",
+    "ts-node": "^10.x",
+    "typescript": "^5.x"
+  }
+}
