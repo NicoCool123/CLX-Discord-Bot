@@ -20,7 +20,8 @@
       "Bash(wc:*)",
       "Bash(pnpm add:*)",
       "Bash(ls *.lock)",
-      "Bash(ls *.yaml)"
+      "Bash(ls *.yaml)",
+      "Bash(npx ts-node:*)"
     ]
   }
 }
