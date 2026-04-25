@@ -1,7 +1,10 @@
 import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { LayoutDashboard, Shield, Users, Zap, Settings, BarChart2, ChevronLeft, LogOut } from 'lucide-react';
+import {
+  LayoutDashboard, Users, Shield, AlertOctagon,
+  Zap, BarChart2, Bug, Settings, ChevronLeft, LogOut,
+} from 'lucide-react';
 import { auth } from '../../../auth';
 import { getUserGuilds, hasManageGuild, getGuildIconUrl } from '../../../lib/discord';
 import { db } from '../../../lib/db';
@@ -29,13 +32,35 @@ export default async function GuildLayout({
     update: { name: guild.name },
   });
 
-  const navItems = [
-    { href: `/dashboard/${guildId}`,            label: 'Overview',    Icon: LayoutDashboard },
-    { href: `/dashboard/${guildId}/moderation`, label: 'Moderation',  Icon: Shield },
-    { href: `/dashboard/${guildId}/users`,      label: 'Users',       Icon: Users },
-    { href: `/dashboard/${guildId}/automod`,    label: 'Automod',     Icon: Zap },
-    { href: `/dashboard/${guildId}/analytics`,  label: 'Analytics',   Icon: BarChart2 },
-    { href: `/dashboard/${guildId}/settings`,   label: 'Settings',    Icon: Settings },
+  // Ordered: summary → people → events → automation → insights → system
+  const navGroups = [
+    {
+      items: [
+        { href: `/dashboard/${guildId}`,              label: 'Overview',      Icon: LayoutDashboard },
+      ],
+    },
+    {
+      label: 'Management',
+      items: [
+        { href: `/dashboard/${guildId}/users`,        label: 'Users',         Icon: Users },
+        { href: `/dashboard/${guildId}/moderation`,   label: 'Mod Log',       Icon: Shield },
+        { href: `/dashboard/${guildId}/active-cases`, label: 'Active Cases',  Icon: AlertOctagon },
+      ],
+    },
+    {
+      label: 'Configuration',
+      items: [
+        { href: `/dashboard/${guildId}/automod`,      label: 'Automod',       Icon: Zap },
+        { href: `/dashboard/${guildId}/settings`,     label: 'Settings',      Icon: Settings },
+      ],
+    },
+    {
+      label: 'Insights',
+      items: [
+        { href: `/dashboard/${guildId}/analytics`,    label: 'Analytics',     Icon: BarChart2 },
+        { href: `/dashboard/${guildId}/debug`,        label: 'Debug',         Icon: Bug },
+      ],
+    },
   ];
 
   return (
@@ -62,17 +87,28 @@ export default async function GuildLayout({
           </div>
         </div>
 
-        {/* Nav */}
-        <nav className="flex-1 px-3 py-4 flex flex-col gap-0.5">
-          {navItems.map(({ href, label, Icon }) => (
-            <Link
-              key={href}
-              href={href}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-[#e5e7eb]/60 hover:text-white hover:bg-[#1f2937] transition-colors"
-            >
-              <Icon size={15} className="flex-shrink-0" />
-              <span>{label}</span>
-            </Link>
+        {/* Nav groups */}
+        <nav className="flex-1 px-3 py-4 space-y-4 overflow-y-auto">
+          {navGroups.map((group) => (
+            <div key={group.label ?? 'root'}>
+              {group.label && (
+                <p className="px-3 mb-1 text-[10px] font-semibold text-[#e5e7eb]/25 uppercase tracking-widest">
+                  {group.label}
+                </p>
+              )}
+              <div className="space-y-0.5">
+                {group.items.map(({ href, label, Icon }) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-[#e5e7eb]/60 hover:text-white hover:bg-[#1f2937] transition-colors"
+                  >
+                    <Icon size={15} className="flex-shrink-0" />
+                    <span>{label}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
           ))}
         </nav>
 

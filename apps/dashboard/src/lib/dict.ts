@@ -12,7 +12,7 @@ const translations = {
       invite: 'Invite Bot',
     },
     hero: {
-      badge: 'Open Source Discord Bot',
+      badge: 'Professional Discord Bot',
       title1: 'CraftLabsX',
       title2: 'Discord Bot',
       subtitle: 'Advanced moderation, automod, and detailed analytics — all managed from one clean dashboard.',
@@ -41,7 +41,7 @@ const translations = {
     stats: [
       { label: 'Commands', value: '15+' },
       { label: 'Automod Rules', value: '3' },
-      { label: 'Open Source', value: '100%' },
+      { label: 'Dashboard Pages', value: '8+' },
       { label: 'Free to Use', value: 'Always' },
     ],
     community: {
@@ -82,7 +82,7 @@ const translations = {
       invite: 'Bot einladen',
     },
     hero: {
-      badge: 'Open-Source-Discord-Bot',
+      badge: 'Professioneller Discord-Bot',
       title1: 'CraftLabsX',
       title2: 'Discord Bot',
       subtitle:
@@ -112,7 +112,7 @@ const translations = {
     stats: [
       { label: 'Befehle', value: '15+' },
       { label: 'Automod-Regeln', value: '3' },
-      { label: 'Open Source', value: '100%' },
+      { label: 'Dashboard-Seiten', value: '8+' },
       { label: 'Kostenlos', value: 'Immer' },
     ],
     community: {

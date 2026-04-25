@@ -29,18 +29,20 @@ export default async function ModerationPage({
   searchParams,
 }: {
   params: Promise<{ guildId: string }>;
-  searchParams: Promise<{ page?: string; type?: string; q?: string }>;
+  searchParams: Promise<{ page?: string; type?: string; q?: string; mod?: string }>;
 }) {
   const { guildId } = await params;
-  const { page: pageStr, type: typeFilter, q } = await searchParams;
+  const { page: pageStr, type: typeFilter, q, mod } = await searchParams;
   const page = Math.max(1, parseInt(pageStr ?? '1', 10));
   const skip = (page - 1) * PAGE_SIZE;
   const query = q?.trim() ?? '';
+  const modFilter = mod?.trim() ?? '';
 
   const where = {
     guildId,
     ...(typeFilter && ALL_TYPES.includes(typeFilter as typeof ALL_TYPES[number]) ? { type: typeFilter as typeof ALL_TYPES[number] } : {}),
     ...(query ? { user: { username: { contains: query, mode: 'insensitive' as const } } } : {}),
+    ...(modFilter ? { moderatorId: { contains: modFilter, mode: 'insensitive' as const } } : {}),
   };
 
   const [infractions, total] = await Promise.all([
@@ -60,6 +62,7 @@ export default async function ModerationPage({
     const p: Record<string, string> = {};
     if (query) p.q = query;
     if (typeFilter) p.type = typeFilter;
+    if (modFilter) p.mod = modFilter;
     Object.assign(p, overrides);
     Object.keys(p).forEach((k) => p[k] === undefined && delete p[k]);
     const qs = new URLSearchParams(p).toString();
@@ -70,24 +73,34 @@ export default async function ModerationPage({
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-white">Moderation Log</h1>
-        <p className="text-[#e5e7eb]/50 text-sm mt-1">{total} infraction{total !== 1 ? 's' : ''} {typeFilter ? `(${typeFilter})` : ''}</p>
+        <p className="text-[#e5e7eb]/50 text-sm mt-1">
+          {total} infraction{total !== 1 ? 's' : ''}
+          {typeFilter && <span className="ml-1 text-[#e5e7eb]/30">· type: {typeFilter}</span>}
+          {modFilter && <span className="ml-1 text-[#e5e7eb]/30">· mod: {modFilter}</span>}
+        </p>
       </div>
 
       {/* Search + filters */}
       <div className="flex flex-col sm:flex-row gap-3">
-        <form method="GET" className="flex gap-2 flex-1">
+        <form method="GET" className="flex gap-2 flex-1 flex-wrap">
           {typeFilter && <input type="hidden" name="type" value={typeFilter} />}
           <input
             name="q"
             defaultValue={query}
-            placeholder="Search by username..."
-            className="flex-1 bg-[#1f2937] border border-[#e5e7eb]/20 rounded-lg px-4 py-2.5 text-sm text-white placeholder-[#e5e7eb]/30 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors"
+            placeholder="Search by username…"
+            className="flex-1 min-w-[160px] bg-[#1f2937] border border-[#e5e7eb]/20 rounded-lg px-4 py-2.5 text-sm text-white placeholder-[#e5e7eb]/30 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors"
+          />
+          <input
+            name="mod"
+            defaultValue={modFilter}
+            placeholder="Filter by moderator ID…"
+            className="flex-1 min-w-[160px] bg-[#1f2937] border border-[#e5e7eb]/20 rounded-lg px-4 py-2.5 text-sm text-white placeholder-[#e5e7eb]/30 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors"
           />
           <button type="submit" className="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm font-medium transition-colors">
             Search
           </button>
-          {query && (
-            <Link href={buildHref({ q: undefined, page: undefined })} className="px-4 py-2.5 bg-[#1f2937] border border-[#e5e7eb]/10 hover:border-[#e5e7eb]/30 rounded-lg text-sm transition-colors">
+          {(query || modFilter) && (
+            <Link href={buildHref({ q: undefined, mod: undefined, page: undefined })} className="px-4 py-2.5 bg-[#1f2937] border border-[#e5e7eb]/10 hover:border-[#e5e7eb]/30 rounded-lg text-sm transition-colors">
               Clear
             </Link>
           )}
@@ -134,6 +147,7 @@ export default async function ModerationPage({
                   <th className="px-5 py-3 text-left font-medium">User</th>
                   <th className="px-5 py-3 text-left font-medium">Type</th>
                   <th className="px-5 py-3 text-left font-medium">Reason</th>
+                  <th className="px-5 py-3 text-left font-medium">Moderator</th>
                   <th className="px-5 py-3 text-left font-medium">Date</th>
                 </tr>
               </thead>
@@ -154,6 +168,7 @@ export default async function ModerationPage({
                       </span>
                     </td>
                     <td className="px-5 py-3 text-[#e5e7eb]/60 max-w-xs truncate">{inf.reason}</td>
+                    <td className="px-5 py-3 font-mono text-xs text-[#e5e7eb]/40 whitespace-nowrap">{inf.moderatorId}</td>
                     <td className="px-5 py-3 text-[#e5e7eb]/40 text-xs whitespace-nowrap">
                       {new Date(inf.createdAt).toLocaleString()}
                     </td>

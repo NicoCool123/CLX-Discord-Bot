@@ -7,7 +7,6 @@ const team = [
     name: 'RedCrafter',
     role: 'Founder & Lead Developer',
     desc: 'Full-stack developer behind CLX. Built the bot, dashboard, and infrastructure from scratch.',
-    avatar: null,
     initials: 'RC',
     color: 'bg-indigo-500/20 text-indigo-300',
   },
@@ -46,18 +45,20 @@ export default function TeamPage() {
 
         <div className="mt-16 bg-[#1f2937] border border-[#e5e7eb]/10 rounded-2xl p-8 text-center">
           <Globe size={24} className="text-indigo-400 mx-auto mb-3" />
-          <h2 className="text-lg font-semibold text-white">Want to Contribute?</h2>
+          <h2 className="text-lg font-semibold text-white">Want to Join the Team?</h2>
           <p className="text-sm text-[#e5e7eb]/55 mt-2 max-w-sm mx-auto">
-            CLX is open source. Open an issue, suggest a feature, or submit a pull request on GitHub.
+            Interested in contributing to CLX? Reach out to us on Discord.
           </p>
-          <a
-            href="https://github.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 mt-4 px-5 py-2.5 bg-[#111827] border border-[#e5e7eb]/15 hover:border-[#e5e7eb]/40 rounded-xl text-sm font-medium transition-colors"
-          >
-            <Code2 size={15} /> View on GitHub
-          </a>
+          {process.env.NEXT_PUBLIC_DISCORD_INVITE_URL && (
+            <a
+              href={process.env.NEXT_PUBLIC_DISCORD_INVITE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 mt-4 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 rounded-xl text-sm font-medium transition-colors"
+            >
+              <Code2 size={15} /> Join our Discord
+            </a>
+          )}
         </div>
       </main>
 

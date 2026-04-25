@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Trash2 } from 'lucide-react';
+import { ArrowLeft, Trash2, PlusCircle, Pencil } from 'lucide-react';
 import { db } from '../../../../../lib/db';
 import { InfractionType } from '@clx/database';
 
@@ -79,6 +79,66 @@ export default async function UserProfilePage({
         ))}
       </div>
 
+      {/* Create Infraction */}
+      <details className="group bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+        <summary className="flex items-center gap-2 px-5 py-4 cursor-pointer list-none text-sm font-semibold text-white hover:bg-[#263348] transition-colors select-none">
+          <PlusCircle size={14} className="text-indigo-400 flex-shrink-0" />
+          Create Infraction
+          <span className="ml-auto text-xs text-[#e5e7eb]/30 group-open:hidden">Click to expand</span>
+        </summary>
+        <form
+          action={`/api/guilds/${guildId}/infractions`}
+          method="POST"
+          className="px-5 pb-5 pt-1 border-t border-[#e5e7eb]/10 space-y-4"
+        >
+          <input type="hidden" name="userId" value={userId} />
+          <input type="hidden" name="_redirect" value={`/dashboard/${guildId}/users/${userId}`} />
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <label className="text-xs text-[#e5e7eb]/50 font-medium">Type</label>
+              <select
+                name="type"
+                required
+                className="w-full bg-[#111827] border border-[#e5e7eb]/20 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors"
+              >
+                <option value="">Select type…</option>
+                {Object.values(InfractionType).map((t) => (
+                  <option key={t} value={t}>{t}</option>
+                ))}
+              </select>
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs text-[#e5e7eb]/50 font-medium">Duration (minutes, MUTE only)</label>
+              <input
+                name="duration"
+                type="number"
+                min="1"
+                placeholder="e.g. 60"
+                className="w-full bg-[#111827] border border-[#e5e7eb]/20 rounded-lg px-3 py-2 text-sm text-white placeholder-[#e5e7eb]/25 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors"
+              />
+            </div>
+          </div>
+          <div className="space-y-1.5">
+            <label className="text-xs text-[#e5e7eb]/50 font-medium">Reason</label>
+            <input
+              name="reason"
+              type="text"
+              required
+              placeholder="Reason for this infraction…"
+              className="w-full bg-[#111827] border border-[#e5e7eb]/20 rounded-lg px-3 py-2 text-sm text-white placeholder-[#e5e7eb]/25 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors"
+            />
+          </div>
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition-colors"
+            >
+              Add Infraction
+            </button>
+          </div>
+        </form>
+      </details>
+
       {/* Infraction list */}
       <div>
         <h2 className="text-base font-semibold text-white mb-3">
@@ -117,13 +177,43 @@ export default async function UserProfilePage({
                     <p className="text-xs text-[#e5e7eb]/30">
                       Moderator: <span className="font-mono text-[#e5e7eb]/50">{inf.moderatorId}</span>
                     </p>
-                    <form action={`/api/guilds/${guildId}/infractions/${inf.id}`} method="POST">
-                      <input type="hidden" name="_method" value="DELETE" />
-                      <button type="submit" className="flex items-center gap-1 text-xs text-red-400/50 hover:text-red-400 transition-colors">
-                        <Trash2 size={11} /> Delete case
+                    <div className="flex items-center gap-3">
+                      <form action={`/api/guilds/${guildId}/infractions/${inf.id}`} method="POST">
+                        <input type="hidden" name="_method" value="DELETE" />
+                        <input type="hidden" name="_redirect" value={`/dashboard/${guildId}/users/${userId}`} />
+                        <button type="submit" className="flex items-center gap-1 text-xs text-red-400/50 hover:text-red-400 transition-colors">
+                          <Trash2 size={11} /> Delete
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                  {/* Edit reason */}
+                  <details className="group">
+                    <summary className="flex items-center gap-1 text-xs text-[#e5e7eb]/25 hover:text-[#e5e7eb]/60 cursor-pointer list-none select-none transition-colors w-fit">
+                      <Pencil size={10} /> Edit reason
+                    </summary>
+                    <form
+                      action={`/api/guilds/${guildId}/infractions/${inf.id}`}
+                      method="POST"
+                      className="flex gap-2 mt-2"
+                    >
+                      <input type="hidden" name="_method" value="PATCH" />
+                      <input type="hidden" name="_redirect" value={`/dashboard/${guildId}/users/${userId}`} />
+                      <input
+                        name="reason"
+                        type="text"
+                        required
+                        defaultValue={inf.reason}
+                        className="flex-1 bg-[#111827] border border-[#e5e7eb]/15 rounded-lg px-3 py-1.5 text-xs text-white placeholder-[#e5e7eb]/25 focus:outline-none focus:border-indigo-500 transition-colors"
+                      />
+                      <button
+                        type="submit"
+                        className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-medium transition-colors"
+                      >
+                        Save
                       </button>
                     </form>
-                  </div>
+                  </details>
                 </div>
               );
             })}
