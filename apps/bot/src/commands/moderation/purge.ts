@@ -1,10 +1,14 @@
 import {
   SlashCommandBuilder,
   PermissionFlagsBits,
+  EmbedBuilder,
+  Colors,
   TextChannel,
   MessageFlags,
 } from 'discord.js';
 import type { Command } from '../../types';
+
+const err = (msg: string) => ({ embeds: [new EmbedBuilder().setColor(Colors.Red).setDescription(`❌ ${msg}`)] });
 
 export default {
   data: new SlashCommandBuilder()
@@ -31,33 +35,37 @@ export default {
     const channel = interaction.channel as TextChannel;
 
     if (!channel.isTextBased()) {
-      return void interaction.editReply('This command can only be used in text channels.');
+      return void interaction.editReply(err('This command can only be used in text channels.'));
     }
 
-    // Fetch messages (bulk delete only works on messages < 14 days old)
     const messages = await channel.messages.fetch({ limit: 100 });
-
     let toDelete = [...messages.values()];
 
-    // Filter by user if specified
     if (targetUser) {
       toDelete = toDelete.filter((m) => m.author.id === targetUser.id);
     }
 
-    // Only keep the requested amount and messages < 14 days old
     const cutoff = Date.now() - 14 * 24 * 60 * 60 * 1_000;
-    toDelete = toDelete
-      .filter((m) => m.createdTimestamp > cutoff)
-      .slice(0, amount);
+    toDelete = toDelete.filter((m) => m.createdTimestamp > cutoff).slice(0, amount);
 
     if (toDelete.length === 0) {
-      return void interaction.editReply('No deletable messages found (messages older than 14 days cannot be bulk deleted).');
+      return void interaction.editReply(err('No deletable messages found (messages older than 14 days cannot be bulk deleted).'));
     }
 
     const deleted = await channel.bulkDelete(toDelete, true);
 
-    await interaction.editReply(
-      `Deleted **${deleted.size}** message${deleted.size !== 1 ? 's' : ''}${targetUser ? ` from **${targetUser.username}**` : ''}.`,
-    );
+    const desc = targetUser
+      ? `🗑️ Deleted **${deleted.size}** message${deleted.size !== 1 ? 's' : ''} from **${targetUser.username}**`
+      : `🗑️ Deleted **${deleted.size}** message${deleted.size !== 1 ? 's' : ''}`;
+    const note = deleted.size < amount ? `\n-# Only ${deleted.size} deletable messages found.` : '';
+
+    await interaction.editReply({
+      embeds: [
+        new EmbedBuilder()
+          .setColor(Colors.Blurple)
+          .setDescription(desc + note)
+          .setTimestamp(),
+      ],
+    });
   },
 } satisfies Command;

@@ -9,7 +9,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 function DataRow({ field, value, retention }: { field: string; value: string; retention: string }) {
   return (
-    <tr className="border-b border-[#e5e7eb]/5 hover:bg-[#263348] transition-colors">
+    <tr className="border-b border-[#e5e7eb]/5 hover:bg-[#1c1c24] transition-colors">
       <td className="px-4 py-3 font-mono text-xs text-indigo-300">{field}</td>
       <td className="px-4 py-3 text-xs text-[#e5e7eb]/65">{value}</td>
       <td className="px-4 py-3 text-xs text-[#e5e7eb]/50">{retention}</td>
@@ -39,7 +39,7 @@ export default function PrivacyPage() {
       <Section title="2. Data We Collect">
         <p>The following data is collected automatically when CLX is active in a server:</p>
 
-        <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl overflow-hidden mt-3">
+        <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden mt-3">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-[#e5e7eb]/10 text-xs text-[#e5e7eb]/40 uppercase tracking-wide">

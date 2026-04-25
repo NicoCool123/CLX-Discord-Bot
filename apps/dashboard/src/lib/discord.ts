@@ -17,7 +17,7 @@ export function hasManageGuild(permissions: string): boolean {
 export async function getUserGuilds(accessToken: string): Promise<DiscordGuild[]> {
   const res = await fetch('https://discord.com/api/v10/users/@me/guilds', {
     headers: { Authorization: `Bearer ${accessToken}` },
-    next: { revalidate: 60 },
+    cache: 'no-store',
   });
 
   if (!res.ok) return [];

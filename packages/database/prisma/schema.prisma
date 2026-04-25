@@ -17,6 +17,7 @@ model Guild {
   users        User[]
   infractions  Infraction[]
   automodRules AutomodRule[]
+  tickets      Ticket[]
 }
 
 model User {
@@ -33,12 +34,13 @@ model User {
 
 model Infraction {
   id          String         @id @default(cuid())
+  caseNumber  Int            @default(autoincrement())
   userId      String
   guildId     String
   type        InfractionType
   reason      String
   moderatorId String
-  duration    Int? // seconds; null = permanent
+  duration    Int?
   createdAt   DateTime       @default(now())
   user        User           @relation(fields: [userId, guildId], references: [userId, guildId])
   guild       Guild          @relation(fields: [guildId], references: [guildId])
@@ -54,6 +56,8 @@ model GuildSettings {
   spamInterval     Int      @default(5)
   logChannelId     String?
   muteRoleId       String?
+  ticketChannelId  String?
+  welcomeChannelId String?
   guild            Guild    @relation(fields: [guildId], references: [guildId])
 }
 
@@ -67,6 +71,25 @@ model AutomodRule {
   guild   Guild           @relation(fields: [guildId], references: [guildId])
 
   @@unique([guildId, type])
+}
+
+model Ticket {
+  id           String       @id @default(cuid())
+  ticketNumber Int          @default(autoincrement())
+  guildId      String
+  threadId     String       @unique
+  creatorId    String
+  subject      String
+  status       TicketStatus @default(OPEN)
+  closedReason String?
+  createdAt    DateTime     @default(now())
+  closedAt     DateTime?
+  guild        Guild        @relation(fields: [guildId], references: [guildId])
+}
+
+enum TicketStatus {
+  OPEN
+  CLOSED
 }
 
 enum InfractionType {

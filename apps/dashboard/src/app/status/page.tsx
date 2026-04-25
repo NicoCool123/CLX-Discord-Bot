@@ -56,7 +56,7 @@ export default async function StatusPage() {
         </div>
 
         {/* Service list */}
-        <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+        <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
           <div className="px-5 py-3 border-b border-[#e5e7eb]/10 flex items-center gap-1.5 text-xs text-[#e5e7eb]/40">
             <RefreshCw size={11} /> Auto-refreshes every 60 seconds
           </div>

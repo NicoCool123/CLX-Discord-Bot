@@ -8,6 +8,8 @@ import {
 import { db, InfractionType } from '@clx/database';
 import type { Command } from '../../types';
 
+const err = (msg: string) => ({ embeds: [new EmbedBuilder().setColor(Colors.Red).setDescription(`❌ ${msg}`)] });
+
 export default {
   data: new SlashCommandBuilder()
     .setName('ban')
@@ -37,20 +39,17 @@ export default {
     const guild = interaction.guild!;
 
     if (target.id === interaction.user.id) {
-      return void interaction.editReply('You cannot ban yourself.');
+      return void interaction.editReply(err('You cannot ban yourself.'));
     }
     if (target.id === interaction.client.user?.id) {
-      return void interaction.editReply('I cannot ban myself.');
+      return void interaction.editReply(err('I cannot ban myself.'));
     }
 
     const member = await guild.members.fetch(target.id).catch(() => null);
     if (member && !member.bannable) {
-      return void interaction.editReply(
-        'I cannot ban this member (missing permissions or higher role).',
-      );
+      return void interaction.editReply(err('I cannot ban this member (missing permissions or higher role).'));
     }
 
-    // DM before ban (will fail after)
     const dmEmbed = new EmbedBuilder()
       .setColor(Colors.Red)
       .setTitle('You have been banned')
@@ -83,10 +82,17 @@ export default {
       },
     });
 
-    const caseId = infraction.id.slice(-6).toUpperCase();
-
-    await interaction.editReply(
-      `Banned **${target.username}** — Case \`#${caseId}\``,
-    );
+    await interaction.editReply({
+      embeds: [
+        new EmbedBuilder()
+          .setColor(Colors.Red)
+          .setDescription(`🔨 Banned **${target.username}** — Case \`#${infraction.caseNumber}\``)
+          .addFields(
+            { name: 'Reason', value: reason },
+            { name: 'Messages deleted', value: `${deleteMessageDays}d`, inline: true },
+          )
+          .setTimestamp(),
+      ],
+    });
   },
 } satisfies Command;

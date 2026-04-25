@@ -10,7 +10,7 @@ export async function MarketingNav() {
   const t = getDict(locale).nav;
 
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-between px-8 py-3.5 border-b border-[#e5e7eb]/10 bg-[#0f172a]/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 flex items-center justify-between px-8 py-3.5 border-b border-[#e5e7eb]/10 bg-[#0d0d11]/95 backdrop-blur-sm">
       <div className="flex items-center gap-8">
         <Link href="/" className="flex items-center gap-2.5">
           <Image src="/icons/clx-icon.png" alt="CLX" width={28} height={28} className="rounded-lg" />

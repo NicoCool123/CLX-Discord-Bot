@@ -20,7 +20,11 @@
       "Bash(wc:*)",
       "Bash(pnpm add:*)",
       "Bash(ls *.lock)",
-      "Bash(ls *.yaml)"
+      "Bash(ls *.yaml)",
+      "Bash(npx ts-node:*)",
+      "Bash(pg_isready -h localhost -p 5432)",
+      "Bash(PGPASSWORD=clxpassword psql -h localhost -U clx -d clx_discord -c \"SELECT pg_advisory_unlock_all\\(\\);\")",
+      "Bash(PGPASSWORD=clxpassword psql *)"
     ]
   }
 }

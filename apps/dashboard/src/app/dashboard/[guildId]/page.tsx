@@ -1,7 +1,7 @@
 import { db } from '../../../lib/db';
 import { InfractionType } from '@clx/database';
 import Link from 'next/link';
-import { ClipboardList, AlertTriangle, VolumeX, UserX, Ban, Zap, Shield, Users, Settings, BarChart2, TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { ClipboardList, AlertTriangle, VolumeX, UserX, Ban, Zap, Shield, Users, Settings, BarChart2, TrendingUp, TrendingDown, Minus, ShieldCheck } from 'lucide-react';
 
 export default async function GuildOverviewPage({
   params,
@@ -42,11 +42,12 @@ export default async function GuildOverviewPage({
   const weekDiff = lastWeekCount === 0 ? null : Math.round(((thisWeekCount - lastWeekCount) / lastWeekCount) * 100);
 
   const statCards = [
-    { label: 'Total', value: total, color: 'text-white', accent: 'border-[#e5e7eb]/20', Icon: ClipboardList },
+    { label: 'Total', value: total, color: 'text-white', accent: 'border-white/20', Icon: ClipboardList },
     { label: 'Warns', value: counts[InfractionType.WARN] ?? 0, color: 'text-yellow-400', accent: 'border-yellow-400/30', Icon: AlertTriangle },
     { label: 'Mutes', value: counts[InfractionType.MUTE] ?? 0, color: 'text-orange-400', accent: 'border-orange-400/30', Icon: VolumeX },
     { label: 'Kicks', value: counts[InfractionType.KICK] ?? 0, color: 'text-red-300', accent: 'border-red-300/30', Icon: UserX },
     { label: 'Bans', value: counts[InfractionType.BAN] ?? 0, color: 'text-red-500', accent: 'border-red-500/30', Icon: Ban },
+    { label: 'Unbans', value: counts[InfractionType.UNBAN] ?? 0, color: 'text-green-400', accent: 'border-green-400/30', Icon: ShieldCheck },
     { label: 'Automod', value: counts[InfractionType.AUTOMOD] ?? 0, color: 'text-purple-400', accent: 'border-purple-400/30', Icon: Zap },
   ];
 
@@ -94,9 +95,9 @@ export default async function GuildOverviewPage({
       </div>
 
       {/* Stat cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
         {statCards.map(({ label, value, color, accent, Icon }) => (
-          <div key={label} className={`bg-[#1f2937] border ${accent} rounded-xl p-4 flex flex-col gap-1`}>
+          <div key={label} className={`bg-[#111116] border ${accent} rounded-xl p-4 flex flex-col gap-1`}>
             <div className="flex items-center justify-between mb-1">
               <p className="text-xs text-[#e5e7eb]/50 font-medium">{label}</p>
               <Icon size={14} className={`${color} opacity-70`} />
@@ -114,7 +115,7 @@ export default async function GuildOverviewPage({
             <Link
               key={href}
               href={href}
-              className="flex items-center gap-3 bg-[#1f2937] border border-[#e5e7eb]/10 hover:border-[#e5e7eb]/30 rounded-xl px-4 py-3 transition-all hover:bg-[#263348]"
+              className="flex items-center gap-3 bg-[#111116] border border-[#e5e7eb]/10 hover:border-[#e5e7eb]/30 rounded-xl px-4 py-3 transition-all hover:bg-[#1c1c24]"
             >
               <div className="w-8 h-8 rounded-lg bg-indigo-500/15 flex items-center justify-center flex-shrink-0">
                 <Icon size={15} className="text-indigo-400" />
@@ -137,13 +138,13 @@ export default async function GuildOverviewPage({
               View all →
             </Link>
           </div>
-          <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+          <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
             {recentInfractions.length === 0 ? (
               <p className="text-[#e5e7eb]/40 text-sm p-6">No infractions yet.</p>
             ) : (
               <div className="divide-y divide-[#e5e7eb]/5">
                 {recentInfractions.map((inf) => (
-                  <div key={inf.id} className="flex items-center gap-3 px-4 py-3 hover:bg-[#263348] transition-colors text-sm">
+                  <div key={inf.id} className="flex items-center gap-3 px-4 py-3 hover:bg-[#1c1c24] transition-colors text-sm">
                     <span className={`text-xs font-semibold px-2 py-0.5 rounded-full flex-shrink-0 ${typeColors[inf.type] ?? 'text-[#e5e7eb] bg-[#e5e7eb]/10'}`}>
                       {inf.type}
                     </span>
@@ -164,7 +165,7 @@ export default async function GuildOverviewPage({
         {/* Top actioned users */}
         <div>
           <h2 className="text-base font-semibold text-white mb-3">Most Actioned Users</h2>
-          <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+          <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
             {activeUsers.length === 0 ? (
               <p className="text-[#e5e7eb]/40 text-sm p-6">No data yet.</p>
             ) : (
@@ -173,7 +174,7 @@ export default async function GuildOverviewPage({
                   <Link
                     key={u.userId}
                     href={`users/${u.userId}`}
-                    className="flex items-center gap-3 px-4 py-3 hover:bg-[#263348] transition-colors text-sm"
+                    className="flex items-center gap-3 px-4 py-3 hover:bg-[#1c1c24] transition-colors text-sm"
                   >
                     <span className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${
                       i === 0 ? 'bg-yellow-400/20 text-yellow-400' :

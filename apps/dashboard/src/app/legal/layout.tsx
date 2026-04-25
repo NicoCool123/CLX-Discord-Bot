@@ -20,7 +20,7 @@ export default function LegalLayout({ children }: { children: React.ReactNode })
               <Link
                 key={href}
                 href={href}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-[#e5e7eb]/50 hover:text-white hover:bg-[#1f2937] transition-colors"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-[#e5e7eb]/50 hover:text-white hover:bg-[#111116] transition-colors"
               >
                 <ChevronRight size={12} className="text-indigo-400 flex-shrink-0" />
                 {label}

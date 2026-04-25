@@ -11,7 +11,7 @@ export default async function GuildSelectorPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="flex items-center justify-between px-8 py-4 border-b border-[#e5e7eb]/10 bg-[#0f172a]">
+      <header className="flex items-center justify-between px-8 py-4 border-b border-[#e5e7eb]/10 bg-[#0d0d11]">
         <div className="flex items-center gap-3">
           <Image src="/icons/clx-icon.png" alt="CLX" width={28} height={28} className="rounded-lg" />
           <span className="font-bold text-white">CLX Dashboard</span>
@@ -33,7 +33,7 @@ export default async function GuildSelectorPage() {
         </div>
 
         {manageableGuilds.length === 0 ? (
-          <div className="text-center py-20 border border-[#e5e7eb]/10 rounded-2xl bg-[#1f2937]">
+          <div className="text-center py-20 border border-[#e5e7eb]/10 rounded-2xl bg-[#111116]">
             <p className="text-[#e5e7eb]/50">You don&apos;t manage any servers with CLX installed.</p>
             {process.env.NEXT_PUBLIC_BOT_INVITE_URL && (
               <a
@@ -52,7 +52,7 @@ export default async function GuildSelectorPage() {
               <Link
                 key={guild.id}
                 href={`/dashboard/${guild.id}`}
-                className="flex items-center gap-4 p-5 bg-[#1f2937] border border-[#e5e7eb]/10 hover:border-[#e5e7eb]/30 rounded-xl transition-all hover:bg-[#263348]"
+                className="flex items-center gap-4 p-5 bg-[#111116] border border-[#e5e7eb]/10 hover:border-[#e5e7eb]/30 rounded-xl transition-all hover:bg-[#1c1c24]"
               >
                 <Image
                   src={getGuildIconUrl(guild.id, guild.icon)}

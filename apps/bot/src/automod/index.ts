@@ -8,11 +8,22 @@ import { executeAction } from './actions';
 interface GuildAutomodCache {
   settings: GuildSettings;
   rules: AutomodRule[];
+  wordFilterRegex: RegExp | null;
   expiresAt: number;
 }
 
 const cache = new Map<string, GuildAutomodCache>();
 const CACHE_TTL_MS = 5 * 60_000; // 5 minutes
+
+function buildWordFilterRegex(words: string[]): RegExp | null {
+  if (words.length === 0) return null;
+  const escaped = words
+    .map((w) => w.toLowerCase().replace(/[​-‍﻿]/g, '').replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim())
+    .filter(Boolean)
+    .map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  if (escaped.length === 0) return null;
+  return new RegExp(`\\b(?:${escaped.join('|')})\\b`, 'i');
+}
 
 async function getGuildAutomod(guildId: string): Promise<GuildAutomodCache | null> {
   const cached = cache.get(guildId);
@@ -20,14 +31,16 @@ async function getGuildAutomod(guildId: string): Promise<GuildAutomodCache | nul
     return cached;
   }
 
-  const settings = await db.guildSettings.findUnique({ where: { guildId } });
+  const [settings, rules] = await Promise.all([
+    db.guildSettings.findUnique({ where: { guildId } }),
+    db.automodRule.findMany({ where: { guildId, enabled: true } }),
+  ]);
   if (!settings) return null;
-
-  const rules = await db.automodRule.findMany({ where: { guildId, enabled: true } });
 
   const entry: GuildAutomodCache = {
     settings,
     rules,
+    wordFilterRegex: buildWordFilterRegex(settings.blacklistedWords),
     expiresAt: Date.now() + CACHE_TTL_MS,
   };
   cache.set(guildId, entry);
@@ -45,7 +58,7 @@ export async function runAutomod(message: Message): Promise<void> {
   const automod = await getGuildAutomod(guildId);
   if (!automod || !automod.settings.automodEnabled) return;
 
-  const { settings, rules } = automod;
+  const { settings, rules, wordFilterRegex } = automod;
 
   for (const rule of rules) {
     let triggerReason: string | null = null;
@@ -60,7 +73,7 @@ export async function runAutomod(message: Message): Promise<void> {
         break;
 
       case AutomodRuleType.WORD_FILTER:
-        triggerReason = checkWordFilter(message, settings.blacklistedWords);
+        triggerReason = checkWordFilter(message, wordFilterRegex);
         break;
 
       case AutomodRuleType.LINK_DETECTION:
@@ -69,7 +82,7 @@ export async function runAutomod(message: Message): Promise<void> {
     }
 
     if (triggerReason) {
-      await executeAction(rule.action as AutomodAction, message, triggerReason);
+      await executeAction(rule.action as AutomodAction, message, triggerReason, settings);
       return; // Apply only the first matched rule
     }
   }

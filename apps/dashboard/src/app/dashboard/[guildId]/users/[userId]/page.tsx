@@ -51,11 +51,11 @@ export default async function UserProfilePage({
       </Link>
 
       {/* User header */}
-      <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl p-6 flex items-center gap-5">
+      <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl p-6 flex items-center gap-5">
         <img
           src={`https://cdn.discordapp.com/avatars/${userId}/default.png`}
           alt={user.username}
-          className="w-16 h-16 rounded-full bg-[#111827] ring-2 ring-[#e5e7eb]/10 flex-shrink-0"
+          className="w-16 h-16 rounded-full bg-[#09090b] ring-2 ring-[#e5e7eb]/10 flex-shrink-0"
           onError={undefined}
         />
         <div className="min-w-0">
@@ -72,7 +72,7 @@ export default async function UserProfilePage({
       {/* Infraction counts */}
       <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
         {statCards.map(({ label, type, color, border }) => (
-          <div key={type} className={`bg-[#1f2937] border border-[#e5e7eb]/10 border-t-2 ${border} rounded-xl p-3 text-center`}>
+          <div key={type} className={`bg-[#111116] border border-[#e5e7eb]/10 border-t-2 ${border} rounded-xl p-3 text-center`}>
             <p className="text-xs text-[#e5e7eb]/40 font-medium">{label}</p>
             <p className={`text-2xl font-bold mt-1 ${color}`}>{counts[type] ?? 0}</p>
           </div>
@@ -80,8 +80,8 @@ export default async function UserProfilePage({
       </div>
 
       {/* Create Infraction */}
-      <details className="group bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
-        <summary className="flex items-center gap-2 px-5 py-4 cursor-pointer list-none text-sm font-semibold text-white hover:bg-[#263348] transition-colors select-none">
+      <details className="group bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+        <summary className="flex items-center gap-2 px-5 py-4 cursor-pointer list-none text-sm font-semibold text-white hover:bg-[#1c1c24] transition-colors select-none">
           <PlusCircle size={14} className="text-indigo-400 flex-shrink-0" />
           Create Infraction
           <span className="ml-auto text-xs text-[#e5e7eb]/30 group-open:hidden">Click to expand</span>
@@ -99,7 +99,7 @@ export default async function UserProfilePage({
               <select
                 name="type"
                 required
-                className="w-full bg-[#111827] border border-[#e5e7eb]/20 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors"
+                className="w-full bg-[#09090b] border border-[#e5e7eb]/20 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors"
               >
                 <option value="">Select type…</option>
                 {Object.values(InfractionType).map((t) => (
@@ -114,7 +114,7 @@ export default async function UserProfilePage({
                 type="number"
                 min="1"
                 placeholder="e.g. 60"
-                className="w-full bg-[#111827] border border-[#e5e7eb]/20 rounded-lg px-3 py-2 text-sm text-white placeholder-[#e5e7eb]/25 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors"
+                className="w-full bg-[#09090b] border border-[#e5e7eb]/20 rounded-lg px-3 py-2 text-sm text-white placeholder-[#e5e7eb]/25 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors"
               />
             </div>
           </div>
@@ -125,7 +125,7 @@ export default async function UserProfilePage({
               type="text"
               required
               placeholder="Reason for this infraction…"
-              className="w-full bg-[#111827] border border-[#e5e7eb]/20 rounded-lg px-3 py-2 text-sm text-white placeholder-[#e5e7eb]/25 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors"
+              className="w-full bg-[#09090b] border border-[#e5e7eb]/20 rounded-lg px-3 py-2 text-sm text-white placeholder-[#e5e7eb]/25 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors"
             />
           </div>
           <div className="flex justify-end">
@@ -147,24 +147,23 @@ export default async function UserProfilePage({
         </h2>
 
         {infractions.length === 0 ? (
-          <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl p-10 text-center">
+          <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl p-10 text-center">
             <p className="text-[#e5e7eb]/40 text-sm">No infractions on record.</p>
           </div>
         ) : (
           <div className="space-y-2">
             {infractions.map((inf) => {
-              const caseId = inf.id.slice(-6).toUpperCase();
               const style = TYPE_STYLE[inf.type];
               return (
                 <div
                   key={inf.id}
-                  className={`bg-[#1f2937] border border-[#e5e7eb]/10 border-l-2 ${style?.border ?? 'border-l-[#e5e7eb]/20'} rounded-xl px-5 py-4 space-y-2`}
+                  className={`bg-[#111116] border border-[#e5e7eb]/10 border-l-2 ${style?.border ?? 'border-l-[#e5e7eb]/20'} rounded-xl px-5 py-4 space-y-2`}
                 >
                   <div className="flex items-center gap-3 flex-wrap">
                     <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${style?.badge ?? 'text-[#e5e7eb] bg-[#e5e7eb]/10'}`}>
                       {inf.type}
                     </span>
-                    <span className="font-mono text-xs text-[#e5e7eb]/30">#{caseId}</span>
+                    <span className="font-mono text-xs text-[#e5e7eb]/30">#{inf.caseNumber}</span>
                     {inf.duration && (
                       <span className="text-xs text-[#e5e7eb]/40">{Math.floor(inf.duration / 60)}m</span>
                     )}
@@ -204,7 +203,7 @@ export default async function UserProfilePage({
                         type="text"
                         required
                         defaultValue={inf.reason}
-                        className="flex-1 bg-[#111827] border border-[#e5e7eb]/15 rounded-lg px-3 py-1.5 text-xs text-white placeholder-[#e5e7eb]/25 focus:outline-none focus:border-indigo-500 transition-colors"
+                        className="flex-1 bg-[#09090b] border border-[#e5e7eb]/15 rounded-lg px-3 py-1.5 text-xs text-white placeholder-[#e5e7eb]/25 focus:outline-none focus:border-indigo-500 transition-colors"
                       />
                       <button
                         type="submit"

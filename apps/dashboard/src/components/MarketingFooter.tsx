@@ -9,7 +9,7 @@ export async function MarketingFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-[#e5e7eb]/10 bg-[#0f172a]">
+    <footer className="border-t border-[#e5e7eb]/10 bg-[#0d0d11]">
       <div className="max-w-6xl mx-auto px-8 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-8 mb-10">
           {/* Brand */}

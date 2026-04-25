@@ -12,8 +12,11 @@ const history = new Map<string, UserHistory>();
 setInterval(() => {
   const cutoff = Date.now() - 60_000;
   for (const [key, data] of history.entries()) {
-    data.timestamps = data.timestamps.filter((t) => t > cutoff);
-    data.contentHashes = data.contentHashes.filter((_, i) => data.timestamps[i] > cutoff);
+    const validIndices = data.timestamps
+      .map((t, i) => ({ t, i }))
+      .filter(({ t }) => t > cutoff);
+    data.timestamps = validIndices.map(({ t }) => t);
+    data.contentHashes = validIndices.map(({ i }) => data.contentHashes[i]);
     if (data.timestamps.length === 0) {
       history.delete(key);
     }

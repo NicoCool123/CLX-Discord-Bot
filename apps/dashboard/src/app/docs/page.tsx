@@ -3,7 +3,7 @@ import { Terminal, Shield, Settings, HelpCircle, ChevronRight } from 'lucide-rea
 import { MarketingNav } from '../../components/MarketingNav';
 import { MarketingFooter } from '../../components/MarketingFooter';
 
-const CMD_STYLE = 'font-mono text-sm bg-[#111827] border border-[#e5e7eb]/10 rounded px-1.5 py-0.5 text-indigo-300';
+const CMD_STYLE = 'font-mono text-sm bg-[#09090b] border border-[#e5e7eb]/10 rounded px-1.5 py-0.5 text-indigo-300';
 const PARAM_STYLE = 'font-mono text-xs text-yellow-400';
 const OPT_PARAM_STYLE = 'font-mono text-xs text-[#e5e7eb]/40';
 
@@ -30,7 +30,7 @@ function CommandCard({ name, desc, usage, params, perms, note }: {
   note?: string;
 }) {
   return (
-    <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+    <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
       <div className="px-5 py-4 border-b border-[#e5e7eb]/10 flex items-start justify-between gap-4">
         <div>
           <code className={CMD_STYLE}>/{name}</code>
@@ -41,7 +41,7 @@ function CommandCard({ name, desc, usage, params, perms, note }: {
       <div className="px-5 py-4 space-y-3">
         <div>
           <p className="text-xs text-[#e5e7eb]/40 uppercase tracking-wide font-medium mb-1.5">Usage</p>
-          <code className="text-sm font-mono text-[#e5e7eb]/80 bg-[#111827] block px-3 py-2 rounded-lg border border-[#e5e7eb]/10">
+          <code className="text-sm font-mono text-[#e5e7eb]/80 bg-[#09090b] block px-3 py-2 rounded-lg border border-[#e5e7eb]/10">
             /{usage}
           </code>
         </div>
@@ -94,7 +94,7 @@ export default function DocsPage() {
               <a
                 key={href}
                 href={href}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-[#e5e7eb]/50 hover:text-white hover:bg-[#1f2937] transition-colors"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-[#e5e7eb]/50 hover:text-white hover:bg-[#111116] transition-colors"
               >
                 <ChevronRight size={12} className="text-indigo-400 flex-shrink-0" />
                 {label}
@@ -120,7 +120,7 @@ export default function DocsPage() {
           {/* Getting started */}
           <section id="getting-started" className="space-y-5">
             <h2 className="text-xl font-bold text-white border-b border-[#e5e7eb]/10 pb-3">Getting Started</h2>
-            <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl p-6 space-y-4">
+            <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl p-6 space-y-4">
               <h3 className="font-semibold text-white">1. Invite the Bot</h3>
               <p className="text-sm text-[#e5e7eb]/65">
                 Use the <strong>Invite Bot</strong> button to add CLX to your Discord server. Make sure to grant all
@@ -324,7 +324,7 @@ export default function DocsPage() {
                   config: ['Allowed Domains — comma-separated list of permitted domains (e.g. discord.com, youtube.com)'],
                 },
               ].map((rule) => (
-                <div key={rule.title} className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl p-6 space-y-3">
+                <div key={rule.title} className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl p-6 space-y-3">
                   <h3 className="font-semibold text-white">{rule.title}</h3>
                   <p className="text-sm text-[#e5e7eb]/65">{rule.desc}</p>
                   <div>
@@ -353,7 +353,7 @@ export default function DocsPage() {
           {/* Dashboard section */}
           <section id="dashboard" className="space-y-5">
             <h2 className="text-xl font-bold text-white border-b border-[#e5e7eb]/10 pb-3">Dashboard</h2>
-            <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl p-6 space-y-4">
+            <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl p-6 space-y-4">
               <p className="text-sm text-[#e5e7eb]/65">
                 Log in with Discord at <Link href="/" className="text-indigo-400 hover:underline">clx.app</Link> and
                 select your server to access the management dashboard. You must have <Badge>Manage Guild</Badge> or{' '}
@@ -381,7 +381,7 @@ export default function DocsPage() {
           {/* Permissions */}
           <section id="permissions" className="space-y-5">
             <h2 className="text-xl font-bold text-white border-b border-[#e5e7eb]/10 pb-3">Required Permissions</h2>
-            <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+            <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-[#e5e7eb]/10 text-xs text-[#e5e7eb]/40 uppercase tracking-wide">
@@ -399,7 +399,7 @@ export default function DocsPage() {
                     { perm: 'Send Messages',    for: 'All command responses and log embeds' },
                     { perm: 'Read Message History', for: '/purge bulk deletion' },
                   ].map(({ perm, for: f }) => (
-                    <tr key={perm} className="hover:bg-[#263348] transition-colors">
+                    <tr key={perm} className="hover:bg-[#1c1c24] transition-colors">
                       <td className="px-5 py-3"><Badge>{perm}</Badge></td>
                       <td className="px-5 py-3 text-[#e5e7eb]/60 text-xs">{f}</td>
                     </tr>

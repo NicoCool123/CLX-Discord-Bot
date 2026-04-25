@@ -4,16 +4,13 @@ import {
   Colors,
   TextChannel,
 } from 'discord.js';
-import { db, InfractionType, AutomodAction } from '@clx/database';
+import { db, InfractionType, AutomodAction, type GuildSettings } from '@clx/database';
 
 const TIMEOUT_DURATION_MS = 10 * 60 * 1_000; // 10 minutes default automod timeout
 
-async function logToChannel(message: Message, action: AutomodAction, reason: string) {
+async function logToChannel(message: Message, action: AutomodAction, reason: string, settings: GuildSettings) {
   try {
-    const settings = await db.guildSettings.findUnique({
-      where: { guildId: message.guildId! },
-    });
-    if (!settings?.logChannelId) return;
+    if (!settings.logChannelId) return;
 
     const channel = message.guild?.channels.cache.get(settings.logChannelId);
     if (!(channel instanceof TextChannel)) return;
@@ -59,8 +56,9 @@ export async function executeAction(
   action: AutomodAction,
   message: Message,
   reason: string,
+  settings: GuildSettings,
 ): Promise<void> {
-  await logToChannel(message, action, reason);
+  await logToChannel(message, action, reason, settings);
 
   if (action === AutomodAction.DELETE) {
     await message.delete().catch(() => null);

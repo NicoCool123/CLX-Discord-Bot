@@ -7,7 +7,7 @@ function Bar({ value, max, color }: { value: number; max: number; color: string 
   const pct = max === 0 ? 0 : Math.round((value / max) * 100);
   return (
     <div className="flex items-center gap-2">
-      <div className="flex-1 h-2 bg-[#111827] rounded-full overflow-hidden">
+      <div className="flex-1 h-2 bg-[#09090b] rounded-full overflow-hidden">
         <div className={`h-full rounded-full ${color}`} style={{ width: `${pct}%` }} />
       </div>
       <span className="text-xs text-[#e5e7eb]/50 w-8 text-right">{value}</span>
@@ -105,7 +105,7 @@ export default async function AnalyticsPage({
           { label: 'Last week', value: lastWeek },
           { label: 'Tracked users', value: totalUsers },
         ].map(({ label, value, delta }) => (
-          <div key={label} className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl p-4">
+          <div key={label} className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl p-4">
             <p className="text-xs text-[#e5e7eb]/40 font-medium">{label}</p>
             <div className="flex items-end gap-2 mt-1">
               <p className="text-2xl font-bold text-white">{value}</p>
@@ -120,7 +120,7 @@ export default async function AnalyticsPage({
       </div>
 
       {/* 14-day chart */}
-      <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl p-6">
+      <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl p-6">
         <h2 className="text-sm font-semibold text-white mb-5">Infractions — Last 14 Days</h2>
         <div className="flex items-end gap-1.5 h-28">
           {days.map(([date, count]) => {
@@ -150,7 +150,7 @@ export default async function AnalyticsPage({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {/* Type breakdown */}
-        <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl p-6">
+        <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl p-6">
           <h2 className="text-sm font-semibold text-white mb-5">Infraction Types</h2>
           {typeCounts.length === 0 ? (
             <p className="text-[#e5e7eb]/40 text-sm">No data yet.</p>
@@ -168,7 +168,7 @@ export default async function AnalyticsPage({
                         <span className="text-xs text-[#e5e7eb]/50 w-6 text-right">{t._count.type}</span>
                       </div>
                     </div>
-                    <div className="h-1.5 bg-[#111827] rounded-full overflow-hidden">
+                    <div className="h-1.5 bg-[#09090b] rounded-full overflow-hidden">
                       <div className={`h-full rounded-full ${cfg?.bar ?? 'bg-white'}`} style={{ width: `${pct}%` }} />
                     </div>
                   </div>
@@ -179,7 +179,7 @@ export default async function AnalyticsPage({
         </div>
 
         {/* Top moderators */}
-        <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl p-6">
+        <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl p-6">
           <h2 className="text-sm font-semibold text-white mb-1">Top Moderators</h2>
           <p className="text-xs text-[#e5e7eb]/40 mb-4">Last 30 days</p>
           {topMods.length === 0 ? (

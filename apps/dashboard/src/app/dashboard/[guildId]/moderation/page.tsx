@@ -88,19 +88,19 @@ export default async function ModerationPage({
             name="q"
             defaultValue={query}
             placeholder="Search by username…"
-            className="flex-1 min-w-[160px] bg-[#1f2937] border border-[#e5e7eb]/20 rounded-lg px-4 py-2.5 text-sm text-white placeholder-[#e5e7eb]/30 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors"
+            className="flex-1 min-w-[160px] bg-[#111116] border border-[#e5e7eb]/20 rounded-lg px-4 py-2.5 text-sm text-white placeholder-[#e5e7eb]/30 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors"
           />
           <input
             name="mod"
             defaultValue={modFilter}
             placeholder="Filter by moderator ID…"
-            className="flex-1 min-w-[160px] bg-[#1f2937] border border-[#e5e7eb]/20 rounded-lg px-4 py-2.5 text-sm text-white placeholder-[#e5e7eb]/30 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors"
+            className="flex-1 min-w-[160px] bg-[#111116] border border-[#e5e7eb]/20 rounded-lg px-4 py-2.5 text-sm text-white placeholder-[#e5e7eb]/30 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors"
           />
           <button type="submit" className="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm font-medium transition-colors">
             Search
           </button>
           {(query || modFilter) && (
-            <Link href={buildHref({ q: undefined, mod: undefined, page: undefined })} className="px-4 py-2.5 bg-[#1f2937] border border-[#e5e7eb]/10 hover:border-[#e5e7eb]/30 rounded-lg text-sm transition-colors">
+            <Link href={buildHref({ q: undefined, mod: undefined, page: undefined })} className="px-4 py-2.5 bg-[#111116] border border-[#e5e7eb]/10 hover:border-[#e5e7eb]/30 rounded-lg text-sm transition-colors">
               Clear
             </Link>
           )}
@@ -134,12 +134,12 @@ export default async function ModerationPage({
       </div>
 
       {infractions.length === 0 ? (
-        <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl p-12 text-center">
+        <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl p-12 text-center">
           <p className="text-[#e5e7eb]/40">No infractions found.</p>
         </div>
       ) : (
         <>
-          <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+          <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-[#e5e7eb]/10 text-xs text-[#e5e7eb]/40 uppercase tracking-wide">
@@ -153,9 +153,9 @@ export default async function ModerationPage({
               </thead>
               <tbody className="divide-y divide-[#e5e7eb]/5">
                 {infractions.map((inf) => (
-                  <tr key={inf.id} className="hover:bg-[#263348] transition-colors">
+                  <tr key={inf.id} className="hover:bg-[#1c1c24] transition-colors">
                     <td className="px-5 py-3 font-mono text-xs text-[#e5e7eb]/30">
-                      #{inf.id.slice(-6).toUpperCase()}
+                      #{inf.caseNumber}
                     </td>
                     <td className="px-5 py-3">
                       <Link href={`../users/${inf.userId}`} className="font-medium text-white hover:text-indigo-400 transition-colors">
@@ -181,13 +181,13 @@ export default async function ModerationPage({
           {totalPages > 1 && (
             <div className="flex gap-2 items-center justify-center text-sm">
               {page > 1 && (
-                <Link href={buildHref({ page: String(page - 1) })} className="px-4 py-1.5 bg-[#1f2937] border border-[#e5e7eb]/10 hover:border-[#e5e7eb]/30 rounded-lg transition-colors">
+                <Link href={buildHref({ page: String(page - 1) })} className="px-4 py-1.5 bg-[#111116] border border-[#e5e7eb]/10 hover:border-[#e5e7eb]/30 rounded-lg transition-colors">
                   ← Previous
                 </Link>
               )}
               <span className="px-4 py-1.5 text-[#e5e7eb]/50 text-xs">Page {page} of {totalPages}</span>
               {page < totalPages && (
-                <Link href={buildHref({ page: String(page + 1) })} className="px-4 py-1.5 bg-[#1f2937] border border-[#e5e7eb]/10 hover:border-[#e5e7eb]/30 rounded-lg transition-colors">
+                <Link href={buildHref({ page: String(page + 1) })} className="px-4 py-1.5 bg-[#111116] border border-[#e5e7eb]/10 hover:border-[#e5e7eb]/30 rounded-lg transition-colors">
                   Next →
                 </Link>
               )}

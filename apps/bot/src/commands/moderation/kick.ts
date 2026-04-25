@@ -8,6 +8,8 @@ import {
 import { db, InfractionType } from '@clx/database';
 import type { Command } from '../../types';
 
+const err = (msg: string) => ({ embeds: [new EmbedBuilder().setColor(Colors.Red).setDescription(`❌ ${msg}`)] });
+
 export default {
   data: new SlashCommandBuilder()
     .setName('kick')
@@ -29,17 +31,15 @@ export default {
     const guild = interaction.guild!;
 
     if (target.id === interaction.user.id) {
-      return void interaction.editReply('You cannot kick yourself.');
+      return void interaction.editReply(err('You cannot kick yourself.'));
     }
 
     const member = await guild.members.fetch(target.id).catch(() => null);
     if (!member) {
-      return void interaction.editReply('That member is not in this server.');
+      return void interaction.editReply(err('That member is not in this server.'));
     }
     if (!member.kickable) {
-      return void interaction.editReply(
-        'I cannot kick this member (missing permissions or higher role).',
-      );
+      return void interaction.editReply(err('I cannot kick this member (missing permissions or higher role).'));
     }
 
     const dmEmbed = new EmbedBuilder()
@@ -70,7 +70,14 @@ export default {
       },
     });
 
-    const caseId = infraction.id.slice(-6).toUpperCase();
-    await interaction.editReply(`Kicked **${target.username}** — Case \`#${caseId}\``);
+    await interaction.editReply({
+      embeds: [
+        new EmbedBuilder()
+          .setColor(Colors.Orange)
+          .setDescription(`👢 Kicked **${target.username}** — Case \`#${infraction.caseNumber}\``)
+          .addFields({ name: 'Reason', value: reason })
+          .setTimestamp(),
+      ],
+    });
   },
 } satisfies Command;

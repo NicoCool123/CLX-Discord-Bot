@@ -8,6 +8,8 @@ import {
 import { db, InfractionType } from '@clx/database';
 import type { Command } from '../../types';
 
+const err = (msg: string) => ({ embeds: [new EmbedBuilder().setColor(Colors.Red).setDescription(`❌ ${msg}`)] });
+
 export default {
   data: new SlashCommandBuilder()
     .setName('warn')
@@ -29,13 +31,25 @@ export default {
     const guild = interaction.guild!;
 
     if (target.bot) {
-      return void interaction.editReply('You cannot warn a bot.');
+      return void interaction.editReply(err('You cannot warn a bot.'));
     }
     if (target.id === interaction.user.id) {
-      return void interaction.editReply('You cannot warn yourself.');
+      return void interaction.editReply(err('You cannot warn yourself.'));
     }
 
-    // Ensure user exists in DB
+    const member = await guild.members.fetch(target.id).catch(() => null);
+    if (!member) {
+      return void interaction.editReply(err('That member is not in this server.'));
+    }
+    if (!member.moderatable) {
+      return void interaction.editReply(err('I cannot moderate this member (missing permissions or higher role).'));
+    }
+
+    const executor = await guild.members.fetch(interaction.user.id).catch(() => null);
+    if (executor && member.roles.highest.position >= executor.roles.highest.position) {
+      return void interaction.editReply(err('You cannot warn a member with an equal or higher role.'));
+    }
+
     await db.user.upsert({
       where: { userId_guildId: { userId: target.id, guildId } },
       create: { userId: target.id, guildId, username: target.username },
@@ -52,23 +66,26 @@ export default {
       },
     });
 
-    const caseId = infraction.id.slice(-6).toUpperCase();
-
-    // DM the target
     const dmEmbed = new EmbedBuilder()
       .setColor(Colors.Yellow)
       .setTitle('You have been warned')
       .addFields(
         { name: 'Server', value: guild.name },
         { name: 'Reason', value: reason },
-        { name: 'Case', value: `#${caseId}` },
+        { name: 'Case', value: `#${infraction.caseNumber}` },
       )
       .setTimestamp();
 
     await target.send({ embeds: [dmEmbed] }).catch(() => null);
 
-    await interaction.editReply(
-      `Warned **${target.username}** — Case \`#${caseId}\``,
-    );
+    await interaction.editReply({
+      embeds: [
+        new EmbedBuilder()
+          .setColor(Colors.Yellow)
+          .setDescription(`⚠️ Warned **${target.username}** — Case \`#${infraction.caseNumber}\``)
+          .addFields({ name: 'Reason', value: reason })
+          .setTimestamp(),
+      ],
+    });
   },
 } satisfies Command;

@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, Interaction, MessageFlags } from 'discord.js';
+import { ChatInputCommandInteraction, Collection, EmbedBuilder, Colors, Interaction, MessageFlags } from 'discord.js';
 import type { BotClient } from '../client';
 import type { Event } from '../types';
 
@@ -32,7 +32,6 @@ export default {
       const cooldownAmount = command.cooldown * 1_000;
 
       if (!client.cooldowns.has(command.data.name)) {
-        const { Collection } = await import('discord.js');
         client.cooldowns.set(command.data.name, new Collection());
       }
       const timestamps = client.cooldowns.get(command.data.name)!;
@@ -58,11 +57,14 @@ export default {
       await command.execute(interaction as ChatInputCommandInteraction);
     } catch (err) {
       console.error(`[Command Error] /${interaction.commandName}:`, err);
-      const errContent = 'An error occurred while running this command.';
+      const errEmbed = {
+        embeds: [new EmbedBuilder().setColor(Colors.Red).setDescription('❌ An error occurred while running this command.')],
+        flags: [MessageFlags.Ephemeral] as const,
+      };
       if (interaction.replied || interaction.deferred) {
-        await interaction.followUp({ content: errContent, flags: [MessageFlags.Ephemeral] }).catch(() => null);
+        await interaction.followUp(errEmbed).catch(() => null);
       } else {
-        await interaction.reply({ content: errContent, flags: [MessageFlags.Ephemeral] }).catch(() => null);
+        await interaction.reply(errEmbed).catch(() => null);
       }
     }
   },

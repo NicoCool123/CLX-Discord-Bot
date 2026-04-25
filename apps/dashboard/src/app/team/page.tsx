@@ -29,7 +29,7 @@ export default function TeamPage() {
           {team.map((member) => (
             <div
               key={member.name}
-              className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-2xl p-6 flex flex-col items-center text-center gap-4"
+              className="bg-[#111116] border border-[#e5e7eb]/10 rounded-2xl p-6 flex flex-col items-center text-center gap-4"
             >
               <div className={`w-16 h-16 rounded-full flex items-center justify-center text-xl font-bold ${member.color}`}>
                 {member.initials}
@@ -43,7 +43,7 @@ export default function TeamPage() {
           ))}
         </div>
 
-        <div className="mt-16 bg-[#1f2937] border border-[#e5e7eb]/10 rounded-2xl p-8 text-center">
+        <div className="mt-16 bg-[#111116] border border-[#e5e7eb]/10 rounded-2xl p-8 text-center">
           <Globe size={24} className="text-indigo-400 mx-auto mb-3" />
           <h2 className="text-lg font-semibold text-white">Want to Join the Team?</h2>
           <p className="text-sm text-[#e5e7eb]/55 mt-2 max-w-sm mx-auto">

@@ -1,11 +1,14 @@
 import {
   SlashCommandBuilder,
   PermissionFlagsBits,
+  EmbedBuilder,
+  Colors,
   TextChannel,
   MessageFlags,
-  PermissionsBitField,
 } from 'discord.js';
 import type { Command } from '../../types';
+
+const err = (msg: string) => ({ embeds: [new EmbedBuilder().setColor(Colors.Red).setDescription(`❌ ${msg}`)] });
 
 export default {
   data: new SlashCommandBuilder()
@@ -24,7 +27,7 @@ export default {
     const guild = interaction.guild!;
 
     if (!channel.isTextBased() || channel.isDMBased()) {
-      return void interaction.editReply('This command can only be used in server text channels.');
+      return void interaction.editReply(err('This command can only be used in server text channels.'));
     }
 
     await channel.permissionOverwrites.edit(guild.roles.everyone, {
@@ -33,15 +36,21 @@ export default {
 
     await channel.send({
       embeds: [
-        {
-          color: 0xef4444,
-          description: `🔒 **Channel locked** — ${reason}`,
-          footer: { text: `Locked by ${interaction.user.tag}` },
-          timestamp: new Date().toISOString(),
-        },
+        new EmbedBuilder()
+          .setColor(Colors.Red)
+          .setDescription(`🔒 **Channel locked** — ${reason}`)
+          .setFooter({ text: `Locked by ${interaction.user.tag}` })
+          .setTimestamp(),
       ],
     });
 
-    await interaction.editReply('Channel locked.');
+    await interaction.editReply({
+      embeds: [
+        new EmbedBuilder()
+          .setColor(Colors.Red)
+          .setDescription(`🔒 Channel locked.`)
+          .addFields({ name: 'Reason', value: reason }),
+      ],
+    });
   },
 } satisfies Command;

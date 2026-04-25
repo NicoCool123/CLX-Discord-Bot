@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import {
   LayoutDashboard, Users, Shield, AlertOctagon,
-  Zap, BarChart2, Bug, Settings, ChevronLeft, LogOut,
+  Zap, BarChart2, Bug, Settings, ChevronLeft, LogOut, Ticket,
 } from 'lucide-react';
 import { auth } from '../../../auth';
 import { getUserGuilds, hasManageGuild, getGuildIconUrl } from '../../../lib/discord';
@@ -45,6 +45,7 @@ export default async function GuildLayout({
         { href: `/dashboard/${guildId}/users`,        label: 'Users',         Icon: Users },
         { href: `/dashboard/${guildId}/moderation`,   label: 'Mod Log',       Icon: Shield },
         { href: `/dashboard/${guildId}/active-cases`, label: 'Active Cases',  Icon: AlertOctagon },
+        { href: `/dashboard/${guildId}/tickets`,      label: 'Tickets',       Icon: Ticket },
       ],
     },
     {
@@ -65,7 +66,7 @@ export default async function GuildLayout({
 
   return (
     <div className="min-h-screen flex">
-      <aside className="w-64 bg-[#0f172a] border-r border-[#e5e7eb]/10 flex flex-col flex-shrink-0">
+      <aside className="w-64 bg-[#0d0d11] border-r border-[#e5e7eb]/10 flex flex-col flex-shrink-0">
         {/* Header */}
         <div className="px-5 py-5 border-b border-[#e5e7eb]/10">
           <div className="flex items-center gap-2 mb-4">
@@ -101,7 +102,7 @@ export default async function GuildLayout({
                   <Link
                     key={href}
                     href={href}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-[#e5e7eb]/60 hover:text-white hover:bg-[#1f2937] transition-colors"
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-[#e5e7eb]/60 hover:text-white hover:bg-[#111116] transition-colors"
                   >
                     <Icon size={15} className="flex-shrink-0" />
                     <span>{label}</span>

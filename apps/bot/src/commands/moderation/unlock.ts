@@ -1,10 +1,14 @@
 import {
   SlashCommandBuilder,
   PermissionFlagsBits,
+  EmbedBuilder,
+  Colors,
   TextChannel,
   MessageFlags,
 } from 'discord.js';
 import type { Command } from '../../types';
+
+const err = (msg: string) => ({ embeds: [new EmbedBuilder().setColor(Colors.Red).setDescription(`❌ ${msg}`)] });
 
 export default {
   data: new SlashCommandBuilder()
@@ -19,24 +23,29 @@ export default {
     const guild = interaction.guild!;
 
     if (!channel.isTextBased() || channel.isDMBased()) {
-      return void interaction.editReply('This command can only be used in server text channels.');
+      return void interaction.editReply(err('This command can only be used in server text channels.'));
     }
 
     await channel.permissionOverwrites.edit(guild.roles.everyone, {
-      SendMessages: null, // Resets to default (inherit)
+      SendMessages: null,
     });
 
     await channel.send({
       embeds: [
-        {
-          color: 0x22c55e,
-          description: `🔓 **Channel unlocked** — members can send messages again.`,
-          footer: { text: `Unlocked by ${interaction.user.tag}` },
-          timestamp: new Date().toISOString(),
-        },
+        new EmbedBuilder()
+          .setColor(Colors.Green)
+          .setDescription('🔓 **Channel unlocked** — members can send messages again.')
+          .setFooter({ text: `Unlocked by ${interaction.user.tag}` })
+          .setTimestamp(),
       ],
     });
 
-    await interaction.editReply('Channel unlocked.');
+    await interaction.editReply({
+      embeds: [
+        new EmbedBuilder()
+          .setColor(Colors.Green)
+          .setDescription('🔓 Channel unlocked.'),
+      ],
+    });
   },
 } satisfies Command;

@@ -49,27 +49,27 @@ export default async function UsersPage({
             name="q"
             defaultValue={query}
             placeholder="Search by username or user ID..."
-            className="w-full bg-[#1f2937] border border-[#e5e7eb]/20 rounded-lg pl-9 pr-4 py-2.5 text-sm text-white placeholder-[#e5e7eb]/30 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors"
+            className="w-full bg-[#111116] border border-[#e5e7eb]/20 rounded-lg pl-9 pr-4 py-2.5 text-sm text-white placeholder-[#e5e7eb]/30 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors"
           />
         </div>
         <button type="submit" className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm font-medium transition-colors">
           Search
         </button>
         {query && (
-          <Link href="?" className="px-5 py-2.5 bg-[#1f2937] border border-[#e5e7eb]/10 hover:border-[#e5e7eb]/30 rounded-lg text-sm transition-colors">
+          <Link href="?" className="px-5 py-2.5 bg-[#111116] border border-[#e5e7eb]/10 hover:border-[#e5e7eb]/30 rounded-lg text-sm transition-colors">
             Clear
           </Link>
         )}
       </form>
 
       {users.length === 0 ? (
-        <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl p-12 text-center">
+        <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl p-12 text-center">
           <p className="text-[#e5e7eb]/40 text-sm">
             {query ? 'No users found matching your search.' : 'No users recorded yet.'}
           </p>
         </div>
       ) : (
-        <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+        <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-[#e5e7eb]/10 text-xs text-[#e5e7eb]/40 uppercase tracking-wide">
@@ -82,7 +82,7 @@ export default async function UsersPage({
             </thead>
             <tbody className="divide-y divide-[#e5e7eb]/5">
               {users.map((user) => (
-                <tr key={user.userId} className="hover:bg-[#263348] transition-colors">
+                <tr key={user.userId} className="hover:bg-[#1c1c24] transition-colors">
                   <td className="px-5 py-3 font-medium text-white">{user.username}</td>
                   <td className="px-5 py-3 font-mono text-xs text-[#e5e7eb]/40">{user.userId}</td>
                   <td className="px-5 py-3 text-center">

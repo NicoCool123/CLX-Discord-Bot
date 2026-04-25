@@ -4,11 +4,12 @@ import {
   EmbedBuilder,
   Colors,
   MessageFlags,
-  GuildMember,
 } from 'discord.js';
 import { db, InfractionType } from '@clx/database';
 import { parseDuration, formatDuration } from '@clx/shared';
 import type { Command } from '../../types';
+
+const err = (msg: string) => ({ embeds: [new EmbedBuilder().setColor(Colors.Red).setDescription(`❌ ${msg}`)] });
 
 export default {
   data: new SlashCommandBuilder()
@@ -39,24 +40,19 @@ export default {
 
     const durationMs = parseDuration(durationStr);
     if (!durationMs) {
-      return void interaction.editReply(
-        'Invalid duration format. Use: `10s`, `5m`, `2h`, `1d`',
-      );
+      return void interaction.editReply(err('Invalid duration format. Use: `10s`, `5m`, `2h`, `1d`'));
     }
 
-    // Max 28 days (Discord limit)
     if (durationMs > 28 * 24 * 60 * 60 * 1_000) {
-      return void interaction.editReply('Maximum timeout duration is 28 days.');
+      return void interaction.editReply(err('Maximum timeout duration is 28 days.'));
     }
 
     const member = await guild.members.fetch(target.id).catch(() => null);
     if (!member) {
-      return void interaction.editReply('Could not find that member in this server.');
+      return void interaction.editReply(err('Could not find that member in this server.'));
     }
     if (!member.moderatable) {
-      return void interaction.editReply(
-        'I cannot mute this member (missing permissions or higher role).',
-      );
+      return void interaction.editReply(err('I cannot mute this member (missing permissions or higher role).'));
     }
 
     await member.timeout(durationMs, reason);
@@ -80,8 +76,6 @@ export default {
       },
     });
 
-    const caseId = infraction.id.slice(-6).toUpperCase();
-
     const dmEmbed = new EmbedBuilder()
       .setColor(Colors.Orange)
       .setTitle('You have been muted')
@@ -89,14 +83,20 @@ export default {
         { name: 'Server', value: guild.name },
         { name: 'Duration', value: formatDuration(durationSecs) },
         { name: 'Reason', value: reason },
-        { name: 'Case', value: `#${caseId}` },
+        { name: 'Case', value: `#${infraction.caseNumber}` },
       )
       .setTimestamp();
 
     await target.send({ embeds: [dmEmbed] }).catch(() => null);
 
-    await interaction.editReply(
-      `Muted **${target.username}** for **${formatDuration(durationSecs)}** — Case \`#${caseId}\``,
-    );
+    await interaction.editReply({
+      embeds: [
+        new EmbedBuilder()
+          .setColor(Colors.Orange)
+          .setDescription(`🔇 Muted **${target.username}** for **${formatDuration(durationSecs)}** — Case \`#${infraction.caseNumber}\``)
+          .addFields({ name: 'Reason', value: reason })
+          .setTimestamp(),
+      ],
+    });
   },
 } satisfies Command;

@@ -22,7 +22,7 @@ function Check({ ok, label, detail }: { ok: boolean; label: string; detail?: str
 
 function StatPill({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="bg-[#111827] border border-[#e5e7eb]/10 rounded-lg px-4 py-3">
+    <div className="bg-[#09090b] border border-[#e5e7eb]/10 rounded-lg px-4 py-3">
       <p className="text-xl font-bold text-white">{value}</p>
       <p className="text-xs text-[#e5e7eb]/40 mt-0.5">{label}</p>
     </div>
@@ -124,7 +124,7 @@ export default async function DebugPage({
 
       {/* Health score */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="sm:col-span-1 bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl p-4">
+        <div className="sm:col-span-1 bg-[#111116] border border-[#e5e7eb]/10 rounded-xl p-4">
           <p className="text-xs text-[#e5e7eb]/40 font-medium">Config Score</p>
           <p className={`text-3xl font-bold mt-1 ${scoreColor}`}>
             {activeChecks}/{checks.length}
@@ -137,7 +137,7 @@ export default async function DebugPage({
       </div>
 
       {/* Config checklist */}
-      <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+      <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
         <div className="px-5 py-4 border-b border-[#e5e7eb]/10 flex items-center gap-2">
           <Shield size={14} className="text-indigo-400" />
           <h2 className="text-sm font-semibold text-white">Configuration Health</h2>
@@ -150,7 +150,7 @@ export default async function DebugPage({
       </div>
 
       {/* Automod rule status */}
-      <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+      <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
         <div className="px-5 py-4 border-b border-[#e5e7eb]/10 flex items-center gap-2">
           <Zap size={14} className="text-indigo-400" />
           <h2 className="text-sm font-semibold text-white">Automod Rules</h2>
@@ -184,7 +184,7 @@ export default async function DebugPage({
                   : 'Block all links',
               },
             ].map(({ name, rule, config }) => (
-              <tr key={name} className="hover:bg-[#263348] transition-colors">
+              <tr key={name} className="hover:bg-[#1c1c24] transition-colors">
                 <td className="px-5 py-3 font-medium text-white">{name}</td>
                 <td className="px-5 py-3">
                   <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${
@@ -209,7 +209,7 @@ export default async function DebugPage({
       </div>
 
       {/* Settings snapshot */}
-      <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+      <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
         <div className="px-5 py-4 border-b border-[#e5e7eb]/10 flex items-center gap-2">
           <Hash size={14} className="text-indigo-400" />
           <h2 className="text-sm font-semibold text-white">Settings Snapshot</h2>
@@ -224,7 +224,7 @@ export default async function DebugPage({
             { key: 'Blacklisted Words', val: settings?.blacklistedWords?.length ?? 0 },
             { key: 'Allowed Domains',   val: settings?.allowedLinks?.length ?? 0 },
           ].map(({ key, val }) => (
-            <div key={key} className="flex items-center justify-between px-5 py-3 text-sm hover:bg-[#263348] transition-colors">
+            <div key={key} className="flex items-center justify-between px-5 py-3 text-sm hover:bg-[#1c1c24] transition-colors">
               <span className="text-[#e5e7eb]/50">{key}</span>
               <span className={`font-mono text-xs ${
                 val === 'Not set' ? 'text-[#e5e7eb]/30' : 'text-white'
@@ -240,7 +240,7 @@ export default async function DebugPage({
       </div>
 
       {/* Recent automod hits */}
-      <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+      <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
         <div className="px-5 py-4 border-b border-[#e5e7eb]/10 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <AlertTriangle size={14} className="text-purple-400" />
@@ -253,7 +253,7 @@ export default async function DebugPage({
         ) : (
           <div className="divide-y divide-[#e5e7eb]/5">
             {automodInfractions.map((inf) => (
-              <div key={inf.id} className="flex items-center gap-3 px-5 py-3 hover:bg-[#263348] transition-colors text-sm">
+              <div key={inf.id} className="flex items-center gap-3 px-5 py-3 hover:bg-[#1c1c24] transition-colors text-sm">
                 <span className={`text-xs font-semibold px-2 py-0.5 rounded-full text-purple-400 bg-purple-400/10 border border-purple-400/20`}>
                   AUTOMOD
                 </span>

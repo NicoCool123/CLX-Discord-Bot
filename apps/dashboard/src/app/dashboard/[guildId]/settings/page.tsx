@@ -1,11 +1,11 @@
 import { db } from '../../../../lib/db';
-import { Hash, Shield, Zap, Type, Link2, Save } from 'lucide-react';
+import { Hash, Shield, Zap, Type, Link2, Save, Ticket } from 'lucide-react';
 
-const inputCls = 'w-full bg-[#111827] border border-[#e5e7eb]/20 rounded-lg px-3 py-2.5 text-sm text-white placeholder-[#e5e7eb]/30 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors';
+const inputCls = 'w-full bg-[#09090b] border border-[#e5e7eb]/20 rounded-lg px-3 py-2.5 text-sm text-white placeholder-[#e5e7eb]/30 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors';
 
 function SectionHeader({ icon, title, desc }: { icon: React.ReactNode; title: string; desc: string }) {
   return (
-    <div className="flex items-center gap-3 px-6 py-4 border-b border-[#e5e7eb]/10 bg-[#111827]/40">
+    <div className="flex items-center gap-3 px-6 py-4 border-b border-[#e5e7eb]/10 bg-[#09090b]/40">
       <div className="w-8 h-8 rounded-lg bg-indigo-500/15 flex items-center justify-center flex-shrink-0">
         {icon}
       </div>
@@ -35,7 +35,7 @@ export default async function SettingsPage({
       <form action={`/api/guilds/${guildId}/settings`} method="POST" className="space-y-6">
 
         {/* Logging */}
-        <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+        <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
           <SectionHeader icon={<Hash size={15} className="text-indigo-400" />} title="Logging" desc="Where moderation actions are reported" />
           <div className="px-6 py-5">
             <label className="block text-xs font-medium text-[#e5e7eb]/50 uppercase tracking-wide mb-2">Log Channel ID</label>
@@ -50,7 +50,7 @@ export default async function SettingsPage({
         </div>
 
         {/* Roles */}
-        <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+        <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
           <SectionHeader icon={<Shield size={15} className="text-indigo-400" />} title="Roles" desc="Role assignments used during moderation" />
           <div className="px-6 py-5">
             <label className="block text-xs font-medium text-[#e5e7eb]/50 uppercase tracking-wide mb-2">Mute Role ID</label>
@@ -67,7 +67,7 @@ export default async function SettingsPage({
         </div>
 
         {/* Automod global */}
-        <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+        <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
           <SectionHeader icon={<Zap size={15} className="text-indigo-400" />} title="Automod" desc="Global automod switch and spam settings" />
           <div className="px-6 py-5 space-y-5">
             <label className="flex items-center gap-3 cursor-pointer">
@@ -113,7 +113,7 @@ export default async function SettingsPage({
         </div>
 
         {/* Word filter */}
-        <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+        <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
           <SectionHeader icon={<Type size={15} className="text-indigo-400" />} title="Word Filter" desc="Words and phrases to remove from messages" />
           <div className="px-6 py-5">
             <label className="block text-xs font-medium text-[#e5e7eb]/50 uppercase tracking-wide mb-2">Blacklisted Words</label>
@@ -129,7 +129,7 @@ export default async function SettingsPage({
         </div>
 
         {/* Link detection */}
-        <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+        <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
           <SectionHeader icon={<Link2 size={15} className="text-indigo-400" />} title="Link Detection" desc="Domains allowed to be posted" />
           <div className="px-6 py-5">
             <label className="block text-xs font-medium text-[#e5e7eb]/50 uppercase tracking-wide mb-2">Allowed Domains</label>
@@ -141,6 +141,21 @@ export default async function SettingsPage({
               className={`${inputCls} resize-none`}
             />
             <p className="text-xs text-[#e5e7eb]/30 mt-1.5">Leave empty to block all links when link detection is enabled.</p>
+          </div>
+        </div>
+
+        {/* Tickets */}
+        <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+          <SectionHeader icon={<Ticket size={15} className="text-indigo-400" />} title="Tickets" desc="Channel where ticket threads are created" />
+          <div className="px-6 py-5">
+            <label className="block text-xs font-medium text-[#e5e7eb]/50 uppercase tracking-wide mb-2">Ticket Channel ID</label>
+            <input
+              name="ticketChannelId"
+              defaultValue={settings?.ticketChannelId ?? ''}
+              placeholder="Right-click a channel → Copy ID"
+              className={inputCls}
+            />
+            <p className="text-xs text-[#e5e7eb]/30 mt-1.5">The bot will create threads in this channel when users run /ticket open.</p>
           </div>
         </div>
 

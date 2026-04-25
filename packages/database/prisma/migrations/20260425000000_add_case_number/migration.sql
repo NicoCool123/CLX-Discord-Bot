@@ -1,0 +1,1 @@
+ALTER TABLE "Infraction" ADD COLUMN "caseNumber" SERIAL NOT NULL;

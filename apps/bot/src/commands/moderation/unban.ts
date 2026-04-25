@@ -1,6 +1,14 @@
-import { SlashCommandBuilder, PermissionFlagsBits, MessageFlags } from 'discord.js';
+import {
+  SlashCommandBuilder,
+  PermissionFlagsBits,
+  EmbedBuilder,
+  Colors,
+  MessageFlags,
+} from 'discord.js';
 import { db, InfractionType } from '@clx/database';
 import type { Command } from '../../types';
+
+const err = (msg: string) => ({ embeds: [new EmbedBuilder().setColor(Colors.Red).setDescription(`❌ ${msg}`)] });
 
 export default {
   data: new SlashCommandBuilder()
@@ -25,14 +33,13 @@ export default {
     const guildId = interaction.guildId!;
     const guild = interaction.guild!;
 
-    // Validate ID format
     if (!/^\d{17,20}$/.test(userId)) {
-      return void interaction.editReply('Invalid user ID format.');
+      return void interaction.editReply(err('Invalid user ID format.'));
     }
 
     const ban = await guild.bans.fetch(userId).catch(() => null);
     if (!ban) {
-      return void interaction.editReply('That user is not banned in this server.');
+      return void interaction.editReply(err('That user is not banned in this server.'));
     }
 
     await guild.members.unban(userId, reason);
@@ -53,10 +60,14 @@ export default {
       },
     });
 
-    const caseId = infraction.id.slice(-6).toUpperCase();
-
-    await interaction.editReply(
-      `Unbanned **${ban.user.username}** — Case \`#${caseId}\``,
-    );
+    await interaction.editReply({
+      embeds: [
+        new EmbedBuilder()
+          .setColor(Colors.Green)
+          .setDescription(`✅ Unbanned **${ban.user.username}** — Case \`#${infraction.caseNumber}\``)
+          .addFields({ name: 'Reason', value: reason })
+          .setTimestamp(),
+      ],
+    });
   },
 } satisfies Command;

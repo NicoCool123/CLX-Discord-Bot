@@ -98,8 +98,7 @@ export default {
     // Last 3 infractions
     if (infractions.length > 0) {
       const recent = infractions.slice(0, 3).map((inf) => {
-        const caseId = inf.id.slice(-6).toUpperCase();
-        return `\`#${caseId}\` **${inf.type}** — ${inf.reason.slice(0, 60)}`;
+        return `\`#${inf.caseNumber}\` **${inf.type}** — ${inf.reason.slice(0, 60)}`;
       });
       embed.addFields({ name: 'Recent Cases', value: recent.join('\n') });
     }

@@ -24,7 +24,7 @@ export default async function LandingPage() {
       {/* Hero */}
       <section className="relative flex flex-col items-center justify-center text-center py-28 px-8 overflow-hidden" style={{ minHeight: '540px' }}>
         <div className="absolute inset-0 bg-center bg-cover" style={{ backgroundImage: "url('/icons/banner.png')" }} />
-        <div className="absolute inset-0 bg-[#111827]/85" />
+        <div className="absolute inset-0 bg-[#09090b]/85" />
         <div className="relative z-10 flex flex-col items-center gap-6 max-w-2xl">
           <span className="text-xs font-semibold px-3 py-1 rounded-full border border-indigo-400/30 bg-indigo-400/10 text-indigo-300 uppercase tracking-widest">
             {t.hero.badge}
@@ -61,7 +61,7 @@ export default async function LandingPage() {
       </section>
 
       {/* Stats bar */}
-      <section className="border-y border-[#e5e7eb]/10 bg-[#0f172a]">
+      <section className="border-y border-[#e5e7eb]/10 bg-[#0d0d11]">
         <div className="max-w-4xl mx-auto px-8 py-6 grid grid-cols-2 sm:grid-cols-4 divide-x divide-[#e5e7eb]/10">
           {t.stats.map(({ label, value }) => (
             <div key={label} className="flex flex-col items-center py-2">
@@ -80,7 +80,7 @@ export default async function LandingPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
           {t.features.items.map((f, i) => (
-            <div key={f.title} className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-2xl p-6 flex flex-col gap-3">
+            <div key={f.title} className="bg-[#111116] border border-[#e5e7eb]/10 rounded-2xl p-6 flex flex-col gap-3">
               <div className="w-10 h-10 rounded-lg bg-indigo-500/15 flex items-center justify-center">
                 {FEATURE_ICONS[i]}
               </div>

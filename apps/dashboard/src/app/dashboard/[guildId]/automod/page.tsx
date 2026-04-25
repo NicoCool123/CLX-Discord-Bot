@@ -10,8 +10,8 @@ const ACTION_LABELS: Record<AutomodAction, string> = {
   DELETE:  'Delete message only',
 };
 
-const inputCls = 'w-full bg-[#111827] border border-[#e5e7eb]/20 rounded-lg px-3 py-2.5 text-sm text-white placeholder-[#e5e7eb]/30 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors';
-const selectCls = 'bg-[#111827] border border-[#e5e7eb]/20 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors';
+const inputCls = 'w-full bg-[#09090b] border border-[#e5e7eb]/20 rounded-lg px-3 py-2.5 text-sm text-white placeholder-[#e5e7eb]/30 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors';
+const selectCls = 'bg-[#09090b] border border-[#e5e7eb]/20 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors';
 
 export default async function AutomodPage({
   params,
@@ -41,7 +41,7 @@ export default async function AutomodPage({
       </div>
 
       {/* ── SPAM ─────────────────────────────────────────────── */}
-      <section className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+      <section className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
         <div className="flex items-center gap-4 px-6 py-4 border-b border-[#e5e7eb]/10">
           <div className="w-9 h-9 rounded-lg bg-orange-500/15 flex items-center justify-center flex-shrink-0">
             <MessageSquareWarning size={17} className="text-orange-400" />
@@ -106,7 +106,7 @@ export default async function AutomodPage({
       </section>
 
       {/* ── WORD FILTER ──────────────────────────────────────── */}
-      <section className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+      <section className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
         <div className="flex items-center gap-4 px-6 py-4 border-b border-[#e5e7eb]/10">
           <div className="w-9 h-9 rounded-lg bg-red-500/15 flex items-center justify-center flex-shrink-0">
             <Type size={17} className="text-red-400" />
@@ -158,7 +158,7 @@ export default async function AutomodPage({
       </section>
 
       {/* ── LINK DETECTION ───────────────────────────────────── */}
-      <section className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+      <section className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
         <div className="flex items-center gap-4 px-6 py-4 border-b border-[#e5e7eb]/10">
           <div className="w-9 h-9 rounded-lg bg-blue-500/15 flex items-center justify-center flex-shrink-0">
             <Link2 size={17} className="text-blue-400" />

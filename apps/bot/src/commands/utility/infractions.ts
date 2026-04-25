@@ -26,13 +26,14 @@ export default {
     const target = interaction.options.getUser('user', true);
     const guildId = interaction.guildId!;
 
-    const infractions = await db.infraction.findMany({
-      where: { userId: target.id, guildId },
-      orderBy: { createdAt: 'desc' },
-      take: 10,
-    });
-
-    const total = await db.infraction.count({ where: { userId: target.id, guildId } });
+    const [infractions, total] = await Promise.all([
+      db.infraction.findMany({
+        where: { userId: target.id, guildId },
+        orderBy: { createdAt: 'desc' },
+        take: 10,
+      }),
+      db.infraction.count({ where: { userId: target.id, guildId } }),
+    ]);
 
     const embed = new EmbedBuilder()
       .setColor(Colors.Blurple)
@@ -43,11 +44,10 @@ export default {
       embed.setDescription('✅ No infractions on record.');
     } else {
       const lines = infractions.map((inf) => {
-        const caseId = inf.id.slice(-6).toUpperCase();
         const emoji = TYPE_EMOJI[inf.type] ?? '•';
         const timestamp = Math.floor(inf.createdAt.getTime() / 1000);
         const duration = inf.duration ? ` (${formatDuration(inf.duration)})` : '';
-        return `${emoji} \`#${caseId}\` **${inf.type}**${duration} — ${inf.reason.slice(0, 60)}\n  <t:${timestamp}:R> by <@${inf.moderatorId}>`;
+        return `${emoji} \`#${inf.caseNumber}\` **${inf.type}**${duration} — ${inf.reason.slice(0, 60)}\n  <t:${timestamp}:R> by <@${inf.moderatorId}>`;
       });
       embed.setDescription(lines.join('\n\n'));
     }

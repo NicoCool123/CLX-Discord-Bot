@@ -1,4 +1,8 @@
-import { SlashCommandBuilder, EmbedBuilder, Colors } from 'discord.js';
+import {
+  SlashCommandBuilder,
+  EmbedBuilder,
+  Colors,
+} from 'discord.js';
 import { db } from '@clx/database';
 import { formatDuration } from '@clx/shared';
 import type { Command } from '../../types';
@@ -16,34 +20,32 @@ export default {
   data: new SlashCommandBuilder()
     .setName('case')
     .setDescription('Look up a specific moderation case by ID')
-    .addStringOption((o) =>
-      o.setName('id').setDescription('Case ID (last 6 characters)').setRequired(true),
+    .addIntegerOption((o) =>
+      o.setName('id').setDescription('Case number').setRequired(true).setMinValue(1),
     ),
 
   async execute(interaction) {
     await interaction.deferReply();
 
-    const input = interaction.options.getString('id', true).toUpperCase().replace('#', '');
+    const caseNumber = interaction.options.getInteger('id', true);
     const guildId = interaction.guildId!;
 
-    // Find by suffix match
-    const infractions = await db.infraction.findMany({
-      where: { guildId },
+    const infraction = await db.infraction.findFirst({
+      where: { guildId, caseNumber },
       include: { user: true },
-      orderBy: { createdAt: 'desc' },
     });
 
-    const infraction = infractions.find((i) => i.id.slice(-6).toUpperCase() === input);
-
     if (!infraction) {
-      return void interaction.editReply(`No case found with ID \`#${input}\`.`);
+      return void interaction.editReply({
+        embeds: [new EmbedBuilder().setColor(Colors.Red).setDescription(`❌ No case found with ID \`#${caseNumber}\`.`)],
+      });
     }
 
     const moderator = await interaction.client.users.fetch(infraction.moderatorId).catch(() => null);
 
     const embed = new EmbedBuilder()
       .setColor(TYPE_COLOR[infraction.type] ?? Colors.Grey)
-      .setTitle(`Case #${input} — ${infraction.type}`)
+      .setTitle(`Case #${caseNumber} — ${infraction.type}`)
       .addFields(
         { name: 'User', value: `${infraction.user.username} (${infraction.userId})`, inline: true },
         { name: 'Moderator', value: moderator ? moderator.tag : infraction.moderatorId, inline: true },

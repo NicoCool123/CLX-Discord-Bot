@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { SlashCommandBuilder, EmbedBuilder, Colors } from 'discord.js';
 import type { Command } from '../../types';
 
 export default {
@@ -7,13 +7,22 @@ export default {
     .setDescription('Check the bot latency'),
 
   async execute(interaction) {
-    const response = await interaction.reply({ content: 'Pinging...', withResponse: true });
+    const response = await interaction.reply({ content: '...', withResponse: true });
     const sent = response.resource!.message!;
     const latency = sent.createdTimestamp - interaction.createdTimestamp;
     const apiLatency = Math.round(interaction.client.ws.ping);
 
-    await interaction.editReply(
-      `Pong! Round-trip: **${latency}ms** | API: **${apiLatency}ms**`,
-    );
+    await interaction.editReply({
+      content: '',
+      embeds: [
+        new EmbedBuilder()
+          .setColor(Colors.Blurple)
+          .setTitle('🏓 Pong!')
+          .addFields(
+            { name: 'Round-trip', value: `${latency}ms`, inline: true },
+            { name: 'API', value: `${apiLatency}ms`, inline: true },
+          ),
+      ],
+    });
   },
 } satisfies Command;

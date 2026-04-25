@@ -32,7 +32,7 @@ export default function LegalIndexPage() {
           <Link
             key={href}
             href={href}
-            className="flex items-center gap-5 bg-[#1f2937] border border-[#e5e7eb]/10 hover:border-[#e5e7eb]/30 rounded-xl p-5 transition-all hover:bg-[#263348]"
+            className="flex items-center gap-5 bg-[#111116] border border-[#e5e7eb]/10 hover:border-[#e5e7eb]/30 rounded-xl p-5 transition-all hover:bg-[#1c1c24]"
           >
             <div className="w-10 h-10 rounded-lg bg-indigo-500/15 flex items-center justify-center flex-shrink-0">
               <Icon size={17} className="text-indigo-400" />

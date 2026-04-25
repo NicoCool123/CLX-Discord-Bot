@@ -79,11 +79,11 @@ export default async function ActiveCasesPage({
         </div>
 
         {activeBans.length === 0 ? (
-          <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl p-8 text-center">
+          <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl p-8 text-center">
             <p className="text-[#e5e7eb]/40 text-sm">No active bans.</p>
           </div>
         ) : (
-          <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+          <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-[#e5e7eb]/10 text-xs text-[#e5e7eb]/40 uppercase tracking-wide">
@@ -96,7 +96,7 @@ export default async function ActiveCasesPage({
               </thead>
               <tbody className="divide-y divide-[#e5e7eb]/5">
                 {activeBans.map((ban) => (
-                  <tr key={ban.userId} className="hover:bg-[#263348] transition-colors">
+                  <tr key={ban.userId} className="hover:bg-[#1c1c24] transition-colors">
                     <td className="px-5 py-3 font-medium text-white">{ban.user.username}</td>
                     <td className="px-5 py-3 font-mono text-xs text-[#e5e7eb]/40">{ban.userId}</td>
                     <td className="px-5 py-3 text-[#e5e7eb]/60 max-w-xs truncate">{ban.reason}</td>
@@ -130,11 +130,11 @@ export default async function ActiveCasesPage({
         </div>
 
         {activeMutes.length === 0 ? (
-          <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl p-8 text-center">
+          <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl p-8 text-center">
             <p className="text-[#e5e7eb]/40 text-sm">No active mutes.</p>
           </div>
         ) : (
-          <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+          <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-[#e5e7eb]/10 text-xs text-[#e5e7eb]/40 uppercase tracking-wide">
@@ -151,7 +151,7 @@ export default async function ActiveCasesPage({
                   const left = timeLeft(mute);
                   const totalMins = mute.duration ? Math.floor(mute.duration / 60) : 0;
                   return (
-                    <tr key={mute.userId} className="hover:bg-[#263348] transition-colors">
+                    <tr key={mute.userId} className="hover:bg-[#1c1c24] transition-colors">
                       <td className="px-5 py-3 font-medium text-white">{mute.user.username}</td>
                       <td className="px-5 py-3 text-[#e5e7eb]/60 max-w-xs truncate">{mute.reason}</td>
                       <td className="px-5 py-3 text-xs text-[#e5e7eb]/50">
