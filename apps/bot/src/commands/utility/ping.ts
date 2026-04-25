@@ -8,8 +8,8 @@ export default {
 
   async execute(interaction) {
     const response = await interaction.reply({ content: '...', withResponse: true });
-    const sent = response.resource!.message!;
-    const latency = sent.createdTimestamp - interaction.createdTimestamp;
+    const sent = response.resource?.message;
+    const latency = sent ? sent.createdTimestamp - interaction.createdTimestamp : interaction.client.ws.ping;
     const apiLatency = Math.round(interaction.client.ws.ping);
 
     await interaction.editReply({

@@ -181,7 +181,7 @@ export default {
       const infraction = await db.infraction.findFirst({ where: { guildId, caseNumber } });
 
       if (!infraction) {
-        return void interaction.editReply(`No case found with ID \`#${caseNumber}\`.`);
+        return void interaction.editReply({ embeds: [new EmbedBuilder().setColor(Colors.Red).setDescription(`❌ No case found with ID \`#${caseNumber}\`.`)] });
       }
 
       await db.infraction.update({ where: { id: infraction.id }, data: { reason } });

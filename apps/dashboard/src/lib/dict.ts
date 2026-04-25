@@ -147,7 +147,5 @@ const translations = {
 export type Dict = typeof translations.en;
 
 export function getDict(locale: Locale): Dict {
-
-  return translations[locale] ?? translations.en;
-
+  return (translations[locale] ?? translations.en) as Dict;
 }

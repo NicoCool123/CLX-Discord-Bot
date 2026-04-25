@@ -65,6 +65,7 @@ export async function POST(
     logChannelId: (body.get('logChannelId') as string)?.trim() || null,
     muteRoleId: (body.get('muteRoleId') as string)?.trim() || null,
     ticketChannelId: (body.get('ticketChannelId') as string)?.trim() || null,
+    welcomeChannelId: (body.get('welcomeChannelId') as string)?.trim() || null,
     spamThreshold: parseInt(body.get('spamThreshold') as string, 10) || 5,
     spamInterval: parseInt(body.get('spamInterval') as string, 10) || 5,
     blacklistedWords,

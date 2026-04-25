@@ -1,5 +1,5 @@
 import { db } from '../../../../lib/db';
-import { Hash, Shield, Zap, Type, Link2, Save, Ticket } from 'lucide-react';
+import { Hash, Shield, Zap, Type, Link2, Save, Ticket, MessageSquare } from 'lucide-react';
 
 const inputCls = 'w-full bg-[#09090b] border border-[#e5e7eb]/20 rounded-lg px-3 py-2.5 text-sm text-white placeholder-[#e5e7eb]/30 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors';
 
@@ -33,6 +33,21 @@ export default async function SettingsPage({
       </div>
 
       <form action={`/api/guilds/${guildId}/settings`} method="POST" className="space-y-6">
+
+        {/* Welcome */}
+        <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">
+          <SectionHeader icon={<MessageSquare size={15} className="text-indigo-400" />} title="Welcome Messages" desc="Greet new members when they join" />
+          <div className="px-6 py-5">
+            <label className="block text-xs font-medium text-[#e5e7eb]/50 uppercase tracking-wide mb-2">Welcome Channel ID</label>
+            <input
+              name="welcomeChannelId"
+              defaultValue={settings?.welcomeChannelId ?? ''}
+              placeholder="Right-click a channel → Copy ID"
+              className={inputCls}
+            />
+            <p className="text-xs text-[#e5e7eb]/30 mt-1.5">Leave blank to disable welcome messages.</p>
+          </div>
+        </div>
 
         {/* Logging */}
         <div className="bg-[#111116] border border-[#e5e7eb]/10 rounded-xl overflow-hidden">

@@ -32,11 +32,11 @@ export default {
 
     const amount = interaction.options.getInteger('amount', true);
     const targetUser = interaction.options.getUser('user');
-    const channel = interaction.channel as TextChannel;
 
-    if (!channel.isTextBased()) {
+    if (!interaction.channel?.isTextBased()) {
       return void interaction.editReply(err('This command can only be used in text channels.'));
     }
+    const channel = interaction.channel as TextChannel;
 
     const messages = await channel.messages.fetch({ limit: 100 });
     let toDelete = [...messages.values()];
