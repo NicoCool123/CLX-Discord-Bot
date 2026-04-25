@@ -1,6 +1,7 @@
 import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import { LayoutDashboard, Shield, Users, Zap, Settings, BarChart2, ChevronLeft, LogOut } from 'lucide-react';
 import { auth } from '../../../auth';
 import { getUserGuilds, hasManageGuild, getGuildIconUrl } from '../../../lib/discord';
 import { db } from '../../../lib/db';
@@ -15,19 +16,13 @@ export default async function GuildLayout({
   const { guildId } = await params;
   const session = await auth();
 
-  if (!session) {
-    redirect('/api/auth/signin');
-  }
+  if (!session) redirect('/api/auth/signin');
 
-  // Verify user manages this guild
   const guilds = await getUserGuilds(session.accessToken);
   const guild = guilds.find((g) => g.id === guildId && hasManageGuild(g.permissions));
 
-  if (!guild) {
-    notFound();
-  }
+  if (!guild) notFound();
 
-  // Ensure guild exists in DB
   await db.guild.upsert({
     where: { guildId },
     create: { guildId, name: guild.name },
@@ -35,25 +30,25 @@ export default async function GuildLayout({
   });
 
   const navItems = [
-    { href: `/dashboard/${guildId}`, label: 'Overview', icon: '📊' },
-    { href: `/dashboard/${guildId}/moderation`, label: 'Moderation', icon: '🔨' },
-    { href: `/dashboard/${guildId}/users`, label: 'Users', icon: '👥' },
-    { href: `/dashboard/${guildId}/automod`, label: 'Automod', icon: '🤖' },
-    { href: `/dashboard/${guildId}/settings`, label: 'Settings', icon: '⚙️' },
+    { href: `/dashboard/${guildId}`,            label: 'Overview',    Icon: LayoutDashboard },
+    { href: `/dashboard/${guildId}/moderation`, label: 'Moderation',  Icon: Shield },
+    { href: `/dashboard/${guildId}/users`,      label: 'Users',       Icon: Users },
+    { href: `/dashboard/${guildId}/automod`,    label: 'Automod',     Icon: Zap },
+    { href: `/dashboard/${guildId}/analytics`,  label: 'Analytics',   Icon: BarChart2 },
+    { href: `/dashboard/${guildId}/settings`,   label: 'Settings',    Icon: Settings },
   ];
 
   return (
     <div className="min-h-screen flex">
-      {/* Sidebar */}
       <aside className="w-64 bg-[#0f172a] border-r border-[#e5e7eb]/10 flex flex-col flex-shrink-0">
-        {/* Logo + guild header */}
+        {/* Header */}
         <div className="px-5 py-5 border-b border-[#e5e7eb]/10">
           <div className="flex items-center gap-2 mb-4">
-            <Image src="/icons/clx-icon.png" alt="CLX" width={24} height={24} className="rounded-md opacity-90" />
+            <Image src="/icons/clx-icon.png" alt="CLX" width={22} height={22} className="rounded-md opacity-90" />
             <span className="text-xs font-semibold text-[#e5e7eb]/40 uppercase tracking-widest">CLX</span>
           </div>
-          <Link href="/dashboard" className="flex items-center gap-1.5 text-xs text-[#e5e7eb]/40 hover:text-[#e5e7eb]/80 transition-colors mb-3">
-            ← All Servers
+          <Link href="/dashboard" className="inline-flex items-center gap-1 text-xs text-[#e5e7eb]/40 hover:text-[#e5e7eb]/80 transition-colors mb-3">
+            <ChevronLeft size={12} /> All Servers
           </Link>
           <div className="flex items-center gap-3">
             <Image
@@ -67,16 +62,16 @@ export default async function GuildLayout({
           </div>
         </div>
 
-        {/* Navigation */}
+        {/* Nav */}
         <nav className="flex-1 px-3 py-4 flex flex-col gap-0.5">
-          {navItems.map((item) => (
+          {navItems.map(({ href, label, Icon }) => (
             <Link
-              key={item.href}
-              href={item.href}
+              key={href}
+              href={href}
               className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-[#e5e7eb]/60 hover:text-white hover:bg-[#1f2937] transition-colors"
             >
-              <span className="text-base leading-none">{item.icon}</span>
-              <span>{item.label}</span>
+              <Icon size={15} className="flex-shrink-0" />
+              <span>{label}</span>
             </Link>
           ))}
         </nav>
@@ -89,21 +84,20 @@ export default async function GuildLayout({
                 <Image
                   src={session.user.image}
                   alt={session.user.name ?? ''}
-                  width={28}
-                  height={28}
+                  width={26}
+                  height={26}
                   className="rounded-full ring-1 ring-[#e5e7eb]/10 flex-shrink-0"
                 />
               )}
               <span className="text-xs text-[#e5e7eb]/60 truncate">{session.user?.name}</span>
             </div>
-            <Link href="/api/auth/signout" className="text-xs text-[#e5e7eb]/30 hover:text-red-400 transition-colors ml-2 flex-shrink-0">
-              Sign out
+            <Link href="/api/auth/signout" className="text-[#e5e7eb]/30 hover:text-red-400 transition-colors ml-2 flex-shrink-0">
+              <LogOut size={14} />
             </Link>
           </div>
         </div>
       </aside>
 
-      {/* Main content */}
       <main className="flex-1 p-8 overflow-y-auto">{children}</main>
     </div>
   );

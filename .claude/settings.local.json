@@ -18,7 +18,9 @@
       "Bash(mkdir -p /home/redcrafter/WebstormProjects/clx_discord_bot/apps/dashboard/src/app/api/guilds/'[guildId]'/infractions/'[infractionId]')",
       "Bash(xargs sed:*)",
       "Bash(wc:*)",
-      "Bash(pnpm add:*)"
+      "Bash(pnpm add:*)",
+      "Bash(ls *.lock)",
+      "Bash(ls *.yaml)"
     ]
   }
 }

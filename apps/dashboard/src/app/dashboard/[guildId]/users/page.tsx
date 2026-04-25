@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Search, ArrowRight } from 'lucide-react';
 import { db } from '../../../../lib/db';
 
 export default async function UsersPage({
@@ -34,29 +35,28 @@ export default async function UsersPage({
       <div>
         <h1 className="text-2xl font-bold text-white">Users</h1>
         <p className="text-[#e5e7eb]/50 text-sm mt-1">
-          {query ? `${users.length} result${users.length !== 1 ? 's' : ''} for "${query}"` : `${users.length} users recorded`}
+          {query
+            ? `${users.length} result${users.length !== 1 ? 's' : ''} for "${query}"`
+            : `${users.length} users recorded`}
         </p>
       </div>
 
       {/* Search */}
       <form method="GET" className="flex gap-2">
-        <input
-          name="q"
-          defaultValue={query}
-          placeholder="Search by username or user ID..."
-          className="flex-1 bg-[#1f2937] border border-[#e5e7eb]/20 rounded-lg px-4 py-2.5 text-sm text-white placeholder-[#e5e7eb]/30 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors"
-        />
-        <button
-          type="submit"
-          className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm font-medium transition-colors"
-        >
+        <div className="relative flex-1">
+          <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#e5e7eb]/30 pointer-events-none" />
+          <input
+            name="q"
+            defaultValue={query}
+            placeholder="Search by username or user ID..."
+            className="w-full bg-[#1f2937] border border-[#e5e7eb]/20 rounded-lg pl-9 pr-4 py-2.5 text-sm text-white placeholder-[#e5e7eb]/30 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 transition-colors"
+          />
+        </div>
+        <button type="submit" className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm font-medium transition-colors">
           Search
         </button>
         {query && (
-          <Link
-            href="?"
-            className="px-5 py-2.5 bg-[#1f2937] border border-[#e5e7eb]/10 hover:border-[#e5e7eb]/30 rounded-lg text-sm transition-colors"
-          >
+          <Link href="?" className="px-5 py-2.5 bg-[#1f2937] border border-[#e5e7eb]/10 hover:border-[#e5e7eb]/30 rounded-lg text-sm transition-colors">
             Clear
           </Link>
         )}
@@ -77,7 +77,7 @@ export default async function UsersPage({
                 <th className="px-5 py-3 text-left font-medium">User ID</th>
                 <th className="px-5 py-3 text-center font-medium">Infractions</th>
                 <th className="px-5 py-3 text-left font-medium">First Seen</th>
-                <th className="px-5 py-3"></th>
+                <th className="px-5 py-3" />
               </tr>
             </thead>
             <tbody className="divide-y divide-[#e5e7eb]/5">
@@ -98,9 +98,9 @@ export default async function UsersPage({
                   <td className="px-5 py-3 text-right">
                     <Link
                       href={`users/${user.userId}`}
-                      className="text-indigo-400 hover:text-indigo-300 text-xs font-medium transition-colors"
+                      className="inline-flex items-center gap-1 text-indigo-400 hover:text-indigo-300 text-xs font-medium transition-colors"
                     >
-                      View →
+                      View <ArrowRight size={11} />
                     </Link>
                   </td>
                 </tr>

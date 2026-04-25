@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { ArrowLeft, Trash2 } from 'lucide-react';
 import { db } from '../../../../../lib/db';
 import { InfractionType } from '@clx/database';
 
@@ -45,28 +46,26 @@ export default async function UserProfilePage({
 
   return (
     <div className="space-y-6 max-w-3xl">
-      <div className="flex items-center gap-2">
-        <Link href="../.." className="text-[#e5e7eb]/40 hover:text-[#e5e7eb]/80 text-sm transition-colors">← Users</Link>
-      </div>
+      <Link href="../.." className="inline-flex items-center gap-1.5 text-xs text-[#e5e7eb]/40 hover:text-[#e5e7eb]/70 transition-colors">
+        <ArrowLeft size={12} /> Users
+      </Link>
 
       {/* User header */}
-      <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl p-6">
-        <div className="flex items-center gap-5">
-          <img
-            src={`https://cdn.discordapp.com/avatars/${userId}/default.png`}
-            alt={user.username}
-            className="w-16 h-16 rounded-full bg-[#111827] ring-2 ring-[#e5e7eb]/10 flex-shrink-0"
-            onError={undefined}
-          />
-          <div className="min-w-0">
-            <h1 className="text-xl font-bold text-white">{user.username}</h1>
-            <p className="text-[#e5e7eb]/40 text-sm font-mono mt-0.5">{userId}</p>
-            <p className="text-[#e5e7eb]/30 text-xs mt-1.5">
-              First seen <time>{new Date(user.createdAt).toLocaleDateString()}</time>
-              {' · '}
-              <span className="text-[#e5e7eb]/50 font-medium">{infractions.length} infraction{infractions.length !== 1 ? 's' : ''}</span>
-            </p>
-          </div>
+      <div className="bg-[#1f2937] border border-[#e5e7eb]/10 rounded-xl p-6 flex items-center gap-5">
+        <img
+          src={`https://cdn.discordapp.com/avatars/${userId}/default.png`}
+          alt={user.username}
+          className="w-16 h-16 rounded-full bg-[#111827] ring-2 ring-[#e5e7eb]/10 flex-shrink-0"
+          onError={undefined}
+        />
+        <div className="min-w-0">
+          <h1 className="text-xl font-bold text-white">{user.username}</h1>
+          <p className="text-[#e5e7eb]/40 text-sm font-mono mt-0.5">{userId}</p>
+          <p className="text-[#e5e7eb]/30 text-xs mt-1.5">
+            First seen <time>{new Date(user.createdAt).toLocaleDateString()}</time>
+            {' · '}
+            <span className="text-[#e5e7eb]/50 font-medium">{infractions.length} infraction{infractions.length !== 1 ? 's' : ''}</span>
+          </p>
         </div>
       </div>
 
@@ -107,9 +106,7 @@ export default async function UserProfilePage({
                     </span>
                     <span className="font-mono text-xs text-[#e5e7eb]/30">#{caseId}</span>
                     {inf.duration && (
-                      <span className="text-xs text-[#e5e7eb]/40">
-                        {Math.floor(inf.duration / 60)}m
-                      </span>
+                      <span className="text-xs text-[#e5e7eb]/40">{Math.floor(inf.duration / 60)}m</span>
                     )}
                     <span className="ml-auto text-xs text-[#e5e7eb]/30">
                       {new Date(inf.createdAt).toLocaleString()}
@@ -122,12 +119,8 @@ export default async function UserProfilePage({
                     </p>
                     <form action={`/api/guilds/${guildId}/infractions/${inf.id}`} method="POST">
                       <input type="hidden" name="_method" value="DELETE" />
-                      <button
-                        type="submit"
-                        className="text-xs text-red-400/60 hover:text-red-400 transition-colors"
-                        onClick={undefined}
-                      >
-                        Delete case
+                      <button type="submit" className="flex items-center gap-1 text-xs text-red-400/50 hover:text-red-400 transition-colors">
+                        <Trash2 size={11} /> Delete case
                       </button>
                     </form>
                   </div>

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { LogOut } from 'lucide-react';
 import { auth } from '../../auth';
 import { getUserGuilds, hasManageGuild, getGuildIconUrl } from '../../lib/discord';
 
@@ -10,7 +11,6 @@ export default async function GuildSelectorPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Header */}
       <header className="flex items-center justify-between px-8 py-4 border-b border-[#e5e7eb]/10 bg-[#0f172a]">
         <div className="flex items-center gap-3">
           <Image src="/icons/clx-icon.png" alt="CLX" width={28} height={28} className="rounded-lg" />
@@ -18,8 +18,8 @@ export default async function GuildSelectorPage() {
         </div>
         <div className="flex items-center gap-4 text-sm text-[#e5e7eb]/60">
           <span>Logged in as <span className="text-white font-medium">{session?.user?.name}</span></span>
-          <Link href="/api/auth/signout" className="text-red-400 hover:text-red-300 transition-colors">
-            Sign out
+          <Link href="/api/auth/signout" className="flex items-center gap-1.5 text-red-400/70 hover:text-red-400 transition-colors">
+            <LogOut size={14} /> Sign out
           </Link>
         </div>
       </header>
