@@ -56,8 +56,14 @@ model GuildSettings {
   spamInterval     Int      @default(5)
   logChannelId     String?
   muteRoleId       String?
-  ticketChannelId  String?
-  welcomeChannelId String?
+  ticketChannelId   String?
+  ticketOpenMessage String?
+  ticketCategories  String[]  @default([])
+  ticketsEnabled    Boolean   @default(true)
+  welcomeChannelId  String?
+  welcomeMessage    String?
+  welcomeEnabled    Boolean   @default(true)
+  loggingEnabled    Boolean   @default(true)
   guild            Guild    @relation(fields: [guildId], references: [guildId])
 }
 

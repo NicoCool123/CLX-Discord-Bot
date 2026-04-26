@@ -26,17 +26,25 @@ export default {
     });
 
     const settings = await db.guildSettings.findUnique({ where: { guildId: guild.id } });
-    if (!settings?.welcomeChannelId) return;
+    if (!settings?.welcomeChannelId || settings.welcomeEnabled === false) return;
 
     const channel = guild.channels.cache.get(settings.welcomeChannelId) as TextChannel | undefined;
     if (!channel?.isTextBased()) return;
 
     const memberCount = guild.memberCount;
+
+    const description = settings.welcomeMessage
+      ? settings.welcomeMessage
+          .replace(/\{member\}/g, `${member}`)
+          .replace(/\{server\}/g, guild.name)
+          .replace(/\{count\}/g, String(memberCount))
+      : `Hey ${member}, glad to have you here. You're member **#${memberCount}**.`;
+
     const embed = new EmbedBuilder()
       .setColor(Colors.Blurple)
       .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL() })
       .setTitle(`Welcome to ${guild.name}!`)
-      .setDescription(`Hey ${member}, glad to have you here. You're member **#${memberCount}**.`)
+      .setDescription(description)
       .setThumbnail(member.user.displayAvatarURL({ size: 256 }))
       .setTimestamp();
 

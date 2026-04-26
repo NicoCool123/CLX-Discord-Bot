@@ -19,3 +19,13 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
+
+@keyframes skeleton-appear {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.loading-delayed {
+  opacity: 0;
+  animation: skeleton-appear 0.2s ease forwards 0.7s;
+}

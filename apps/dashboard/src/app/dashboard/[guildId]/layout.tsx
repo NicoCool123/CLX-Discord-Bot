@@ -8,6 +8,7 @@ import {
 import { auth } from '../../../auth';
 import { getUserGuilds, hasManageGuild, getGuildIconUrl } from '../../../lib/discord';
 import { db } from '../../../lib/db';
+import { TabPrefetcher } from '../../../components/TabPrefetcher';
 
 export default async function GuildLayout({
   children,
@@ -116,18 +117,23 @@ export default async function GuildLayout({
         {/* Footer */}
         <div className="px-5 py-4 border-t border-[#e5e7eb]/10">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 min-w-0">
+            <Link
+              href={`/dashboard/${guildId}/data`}
+              className="flex items-center gap-2 min-w-0 group"
+            >
               {session.user?.image && (
                 <Image
                   src={session.user.image}
                   alt={session.user.name ?? ''}
                   width={26}
                   height={26}
-                  className="rounded-full ring-1 ring-[#e5e7eb]/10 flex-shrink-0"
+                  className="rounded-full ring-1 ring-[#e5e7eb]/10 flex-shrink-0 group-hover:ring-indigo-500/50 transition-all"
                 />
               )}
-              <span className="text-xs text-[#e5e7eb]/60 truncate">{session.user?.name}</span>
-            </div>
+              <span className="text-xs text-[#e5e7eb]/60 truncate group-hover:text-white transition-colors">
+                {session.user?.name}
+              </span>
+            </Link>
             <Link href="/api/auth/signout" className="text-[#e5e7eb]/30 hover:text-red-400 transition-colors ml-2 flex-shrink-0">
               <LogOut size={14} />
             </Link>
@@ -135,7 +141,20 @@ export default async function GuildLayout({
         </div>
       </aside>
 
-      <main className="flex-1 p-8 overflow-y-auto">{children}</main>
+      <main className="flex-1 p-8 overflow-y-auto">
+        <TabPrefetcher urls={[
+          `/dashboard/${guildId}`,
+          `/dashboard/${guildId}/users`,
+          `/dashboard/${guildId}/moderation`,
+          `/dashboard/${guildId}/active-cases`,
+          `/dashboard/${guildId}/tickets`,
+          `/dashboard/${guildId}/automod`,
+          `/dashboard/${guildId}/settings`,
+          `/dashboard/${guildId}/analytics`,
+          `/dashboard/${guildId}/debug`,
+        ]} />
+        {children}
+      </main>
     </div>
   );
 }

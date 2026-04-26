@@ -18,6 +18,7 @@
     "db:migrate": "npm run migrate --workspace=packages/database",
     "db:migrate:prod": "npm run migrate:prod --workspace=packages/database",
     "db:studio": "npm run studio --workspace=packages/database",
+    "dev": "npm run bot:dev & npm run dash:dev",
     "build": "npm run build --workspaces --if-present"
   }
 }

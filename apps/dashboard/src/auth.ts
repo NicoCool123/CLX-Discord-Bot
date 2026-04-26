@@ -8,7 +8,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       clientSecret: process.env.DISCORD_CLIENT_SECRET!,
       authorization: {
         params: {
-          scope: 'identify guilds',
+          scope: 'identify guilds email',
         },
       },
       checks: ['state'], // Discord doesn't support PKCE
