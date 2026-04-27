@@ -33,6 +33,9 @@ export default {
     if (target.id === interaction.user.id) {
       return void interaction.editReply(err('You cannot kick yourself.'));
     }
+    if (target.id === interaction.client.user?.id) {
+      return void interaction.editReply(err('I cannot kick myself.'));
+    }
 
     const member = await guild.members.fetch(target.id).catch(() => null);
     if (!member) {

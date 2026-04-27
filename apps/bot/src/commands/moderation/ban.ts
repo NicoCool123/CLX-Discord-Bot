@@ -50,6 +50,13 @@ export default {
       return void interaction.editReply(err('I cannot ban this member (missing permissions or higher role).'));
     }
 
+    if (member) {
+      const executor = await guild.members.fetch(interaction.user.id).catch(() => null);
+      if (executor && member.roles.highest.position >= executor.roles.highest.position) {
+        return void interaction.editReply(err('You cannot ban a member with an equal or higher role.'));
+      }
+    }
+
     const dmEmbed = new EmbedBuilder()
       .setColor(Colors.Red)
       .setTitle('You have been banned')

@@ -105,6 +105,8 @@ enum InfractionType {
   KICK
   UNBAN
   AUTOMOD
+  NOTE
+  UNMUTE
 }
 
 enum AutomodRuleType {
