@@ -1,5 +1,11 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { FileText, Shield, Building2, ChevronRight } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: 'Legal',
+  description: 'Legal documents for CLX — terms of service, privacy policy, and impressum.',
+};
 
 export default function LegalIndexPage() {
   return (

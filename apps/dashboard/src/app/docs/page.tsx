@@ -1,7 +1,13 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Terminal, Shield, Settings, HelpCircle, ChevronRight } from 'lucide-react';
 import { MarketingNav } from '../../components/MarketingNav';
 import { MarketingFooter } from '../../components/MarketingFooter';
+
+export const metadata: Metadata = {
+  title: 'Docs',
+  description: 'Documentation and guides for the CLX Discord bot.',
+};
 
 const CMD_STYLE = 'font-mono text-sm bg-[#09090b] border border-[#e5e7eb]/10 rounded px-1.5 py-0.5 text-indigo-300';
 const PARAM_STYLE = 'font-mono text-xs text-yellow-400';

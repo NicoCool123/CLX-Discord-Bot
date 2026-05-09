@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Shield, Zap, BarChart2, MessageCircle } from 'lucide-react';
@@ -6,6 +7,16 @@ import { getLocale } from '../lib/locale';
 import { getDict } from '../lib/dict';
 import { MarketingNav } from '../components/MarketingNav';
 import { MarketingFooter } from '../components/MarketingFooter';
+
+export const metadata: Metadata = {
+  title: 'CLX — Discord Bot Management',
+  description: 'Manage your Discord server with CLX. Moderation, analytics, automod, ticketing, and more.',
+  openGraph: {
+    title: 'CLX — Discord Bot Management',
+    description: 'Manage your Discord server with CLX. Moderation, analytics, automod, ticketing, and more.',
+    url: 'https://clx.gg',
+  },
+};
 
 const FEATURE_ICONS = [
   <Shield key="shield" size={20} className="text-indigo-400" />,
@@ -18,12 +29,12 @@ export default async function LandingPage() {
   const t = getDict(locale);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div id="main-content" className="flex flex-col min-h-screen">
       <MarketingNav />
 
       {/* Hero */}
       <section className="relative flex flex-col items-center justify-center text-center py-28 px-8 overflow-hidden" style={{ minHeight: '540px' }}>
-        <div className="absolute inset-0 bg-center bg-cover" style={{ backgroundImage: "url('/icons/banner.png')" }} />
+        <Image src="/icons/banner.png" alt="" fill sizes="100vw" className="object-cover object-center" aria-hidden="true" priority />
         <div className="absolute inset-0 bg-[#09090b]/85" />
         <div className="relative z-10 flex flex-col items-center gap-6 max-w-2xl">
           <span className="text-xs font-semibold px-3 py-1 rounded-full border border-indigo-400/30 bg-indigo-400/10 text-indigo-300 uppercase tracking-widest">

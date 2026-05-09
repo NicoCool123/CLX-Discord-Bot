@@ -1,6 +1,12 @@
+import type { Metadata } from 'next';
 import { Code2, Globe } from 'lucide-react';
 import { MarketingNav } from '../../components/MarketingNav';
 import { MarketingFooter } from '../../components/MarketingFooter';
+
+export const metadata: Metadata = {
+  title: 'Team',
+  description: 'Meet the team behind the CLX Discord bot.',
+};
 
 const team = [
   {

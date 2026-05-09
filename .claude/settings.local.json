@@ -31,7 +31,10 @@
       "Bash(docker-compose ps *)",
       "Bash(grep -E \"^[^/]*\\(/[^/]*\\){0,2}$\")",
       "Bash(grep -E \"\\\\.\\(tsx?|jsx?\\)$\")",
-      "Bash(xargs ls *)"
+      "Bash(xargs ls *)",
+      "Bash(xargs -I {} sh -c 'echo \"=== {} ===\" && grep -l \"metadata\\\\|Metadata\" {}')",
+      "Bash(identify /home/redcrafter/WebstormProjects/clx_discord_bot/apps/dashboard/public/icons/clx-icon.png)",
+      "Bash(xxd /home/redcrafter/WebstormProjects/clx_discord_bot/apps/dashboard/src/app/support/page.tsx)"
     ]
   }
 }

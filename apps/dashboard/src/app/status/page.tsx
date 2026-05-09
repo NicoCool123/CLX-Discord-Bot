@@ -1,7 +1,13 @@
+import type { Metadata } from 'next';
 import { CheckCircle, Circle, RefreshCw } from 'lucide-react';
 import { MarketingNav } from '../../components/MarketingNav';
 import { MarketingFooter } from '../../components/MarketingFooter';
 import { db } from '../../lib/db';
+
+export const metadata: Metadata = {
+  title: 'Status',
+  description: 'Live status and uptime for the CLX Discord bot.',
+};
 
 export const revalidate = 60; // revalidate every 60s
 
